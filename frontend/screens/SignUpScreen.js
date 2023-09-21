@@ -27,6 +27,7 @@ export default function SignUpScreen(props) {
             try {
                 const jsonValue = JSON.stringify(data);
                 await AsyncStorage.setItem('token', data.token);
+                props.navigation.replace("Home");
             } catch(e) {
                 console.log(e);
             }
@@ -117,7 +118,7 @@ export default function SignUpScreen(props) {
             marginLeft: 18,
             marginTop: 18,
             }}
-            onPress={() => props.navigation.navigate("Login")}
+            onPress={() => props.navigation.replace("Login")}
         >
             Already have an account?
         </Text>

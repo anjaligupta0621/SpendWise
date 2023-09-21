@@ -31,7 +31,7 @@ app.post('/', (req, res) => {
 });
 
 app.get('/', requireToken, (req, res) => {
-    res.send("Your email is " + req.user.email);
+    res.send({email: req.user.email});
 })
 
 app.listen(PORT, () => {

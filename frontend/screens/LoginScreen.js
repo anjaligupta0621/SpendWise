@@ -1,7 +1,46 @@
+import { useState } from 'react';
 import { StyleSheet, Text, View, StatusBar, TouchableOpacity, KeyboardAvoidingView } from 'react-native';
 import { Button, TextInput } from 'react-native-paper';
+import AsyncStorage from '@react-native-async-storage/async-storage';``
 
 export default function LoginScreen(props) {
+
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    
+    const onLoginHandler = async (props) => {
+        const data = {
+            "email": email,
+            "password": password
+        };
+
+        fetch('http://localhost:3000/signin', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data),
+        })
+        .then(response => response.json())
+        .then(async (data) => {
+            console.log('Login successful:', data);
+            try {
+                if (data && data.token) {
+                    // await AsyncStorage.setItem('userToken', data.access_token);
+                    const jsonValue = JSON.stringify(data);
+                    await AsyncStorage.setItem('token', data.token);
+                    props.navigation.replace("Home");
+                }
+            } catch(e) {
+                console.log(e);
+            }
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+        })
+        ;
+    }
+
   return (
     <>
       <KeyboardAvoidingView behavior='position'>
@@ -39,6 +78,9 @@ export default function LoginScreen(props) {
       <TextInput 
         label="Email"
         mode='outlined'
+        autoCapitalize='none'
+        value={email}
+        onChangeText={(text) => setEmail(text)}
         style = {{
           marginLeft: 18,
           marginRight: 18,
@@ -49,6 +91,10 @@ export default function LoginScreen(props) {
        <TextInput 
         label="Password"
         mode='outlined'
+        autoCapitalize='none'
+        secureTextEntry={true}
+        value={password}
+        onChangeText={(text) => setPassword(text)}
         style = {{
           marginLeft: 18,
           marginRight: 18,
@@ -63,7 +109,9 @@ export default function LoginScreen(props) {
         marginLeft: 18,
         marginRight: 18,
         marginTop: 18,
-        }}>
+        }}
+        onPress={() => onLoginHandler(props)}
+        >
           Login
        </Button>
        <TouchableOpacity>
@@ -72,7 +120,7 @@ export default function LoginScreen(props) {
           marginLeft: 18,
           marginTop: 18,
         }}
-        onPress={() => props.navigation.navigate("Signup")}
+        onPress={() => props.navigation.replace("Signup")}
         >Don't have an account?</Text>
        </TouchableOpacity>
        </KeyboardAvoidingView>

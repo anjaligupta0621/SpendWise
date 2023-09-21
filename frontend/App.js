@@ -30,17 +30,11 @@ export default function App() {
 
   return (
     <NavigationContainer>
-      <Stack.Navigator headerMode="none">
-        {
-          isLoggedIn == null 
-            ? <Stack.Screen name="Loading" component={LoadingScreen} />
-            : isLoggedIn == true
-              ? <Stack.Screen name="Home" component={HomeScreen} />
-              : (<>
-                <Stack.Screen name="Signup" component={SignUpScreen} />
-                <Stack.Screen name="Login" component={LoginScreen} />
-              </>)
-        }
+      <Stack.Navigator headerShown='none' >
+        <Stack.Screen name="Loading" component={LoadingScreen} />
+        <Stack.Screen name="Home" component={HomeScreen} />
+        <Stack.Screen name="Signup" component={SignUpScreen} />
+        <Stack.Screen name="Login" component={LoginScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );
