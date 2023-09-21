@@ -1,5 +1,4 @@
 import { ActivityIndicator} from 'react-native';
-import { StyleSheet } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useEffect } from 'react';
 
@@ -24,11 +23,3 @@ export default function LoginScreen(props) {
     </>
   );
 }
-
-// const styles = StyleSheet.create({
-//     loading: {
-//       flex: 1,
-//       justifyContent: "center",
-//       alignItems: "center"
-//     }
-//   })

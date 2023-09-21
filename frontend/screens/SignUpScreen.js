@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { StyleSheet, Text, View, StatusBar, TouchableOpacity, KeyboardAvoidingView } from 'react-native';
 import { Button, TextInput } from 'react-native-paper';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {styles} from '../styles/AuthenticationScreenStyle.js';
 
 export default function SignUpScreen(props) {
 
@@ -41,46 +42,21 @@ export default function SignUpScreen(props) {
   return (
     <>
       <KeyboardAvoidingView behavior='position'>
-      <Text style={{
-        fontSize: 30,
-        marginLeft: 18,
-        marginTop: 60,
-        color: 'grey'
-      }}>
+      <Text style={styles.welcomeTitle}>
         Welcome to
       </Text>
-      <Text style={{
-        fontSize: 35,
-        marginLeft: 18,
-        color: 'purple'
-      }}>
+      <Text style={styles.spendWiseTitle}>
         SpendWise!
       </Text>
-      <View style={{
-        borderBottomColor: "purple",
-        borderBottomWidth: 4,
-        borderRadius: 10,
-        marginLeft: 16,
-        marginRight: 260,
-        marginTop: 10
-      }} />
-      <Text style={{
-        fontSize: 20,
-        marginLeft: 18,
-        marginTop: 20,
-        fontWeight: "bold",
-      }}>
+      <View style={styles.borderStyle} />
+      <Text style={styles.subtitleStyle}>
         Create New Account
       </Text>
       <TextInput 
         label="Email"
         mode='outlined'
         autoCapitalize='none'
-        style = {{
-          marginLeft: 18,
-          marginRight: 18,
-          marginTop: 18,
-        }}
+        style = {styles.inputFieldStyle}
         value={email}
         onChangeText={text => setEmail(text)}
         theme={{colors: {primary: "purple"}}}
@@ -89,35 +65,20 @@ export default function SignUpScreen(props) {
         label="Password"
         mode='outlined'
         autoCapitalize='none'
-        style = {{
-          marginLeft: 18,
-          marginRight: 18,
-          marginTop: 18,
-        }}
+        style = {styles.inputFieldStyle}
         value={password}
         onChangeText={text => setPassword(text)}
         secureTextEntry={true}
         theme={{colors: {primary: "purple"}}}
        />
-       <Button icon="camera" mode='contained' style={{ 
-        color: "white", 
-        backgroundColor: "purple",
-        borderRadius: 5,
-        marginLeft: 18,
-        marginRight: 18,
-        marginTop: 18,
-        }}
+       <Button mode='contained' style={styles.buttonStyle}
         onPress={() => onSignUpHandler()}
         >
           Sign Up
        </Button>
        <TouchableOpacity>
         <Text 
-            style={{
-            fontSize: 16,
-            marginLeft: 18,
-            marginTop: 18,
-            }}
+            style={styles.lastTitle}
             onPress={() => props.navigation.replace("Login")}
         >
             Already have an account?
@@ -127,12 +88,3 @@ export default function SignUpScreen(props) {
     </>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});

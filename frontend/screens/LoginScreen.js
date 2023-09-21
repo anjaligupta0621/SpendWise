@@ -1,7 +1,9 @@
 import { useState } from 'react';
 import { StyleSheet, Text, View, StatusBar, TouchableOpacity, KeyboardAvoidingView } from 'react-native';
 import { Button, TextInput } from 'react-native-paper';
-import AsyncStorage from '@react-native-async-storage/async-storage';``
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import {styles} from '../styles/AuthenticationScreenStyle.js';
+
 
 export default function LoginScreen(props) {
 
@@ -26,7 +28,6 @@ export default function LoginScreen(props) {
             console.log('Login successful:', data);
             try {
                 if (data && data.token) {
-                    // await AsyncStorage.setItem('userToken', data.access_token);
                     const jsonValue = JSON.stringify(data);
                     await AsyncStorage.setItem('token', data.token);
                     props.navigation.replace("Home");
@@ -44,35 +45,14 @@ export default function LoginScreen(props) {
   return (
     <>
       <KeyboardAvoidingView behavior='position'>
-      <Text style={{
-        fontSize: 30,
-        marginLeft: 18,
-        marginTop: 60,
-        color: 'grey'
-      }}>
+      <Text style={styles.welcomeTitle}>
         Welcome to
       </Text>
-      <Text style={{
-        fontSize: 35,
-        marginLeft: 18,
-        color: 'purple'
-      }}>
+      <Text style={styles.spendWiseTitle}>
         SpendWise!
       </Text>
-      <View style={{
-        borderBottomColor: "purple",
-        borderBottomWidth: 4,
-        borderRadius: 10,
-        marginLeft: 16,
-        marginRight: 260,
-        marginTop: 10
-      }} />
-      <Text style={{
-        fontSize: 20,
-        marginLeft: 18,
-        marginTop: 20,
-        fontWeight: "bold",
-      }}>
+      <View style={styles.borderStyle} />
+      <Text style={styles.subtitleStyle}>
         Login using email
       </Text>
       <TextInput 
@@ -81,11 +61,7 @@ export default function LoginScreen(props) {
         autoCapitalize='none'
         value={email}
         onChangeText={(text) => setEmail(text)}
-        style = {{
-          marginLeft: 18,
-          marginRight: 18,
-          marginTop: 18,
-        }}
+        style = {styles.inputFieldStyle}
         theme={{colors: {primary: "purple"}}}
        />
        <TextInput 
@@ -95,31 +71,16 @@ export default function LoginScreen(props) {
         secureTextEntry={true}
         value={password}
         onChangeText={(text) => setPassword(text)}
-        style = {{
-          marginLeft: 18,
-          marginRight: 18,
-          marginTop: 18,
-        }}
+        style = {styles.inputFieldStyle}
         theme={{colors: {primary: "purple"}}}
        />
-       <Button icon="camera" mode='contained' style={{ 
-        color: "white", 
-        backgroundColor: "purple",
-        borderRadius: 5,
-        marginLeft: 18,
-        marginRight: 18,
-        marginTop: 18,
-        }}
+       <Button mode='contained' style={styles.buttonStyle}
         onPress={() => onLoginHandler(props)}
         >
           Login
        </Button>
        <TouchableOpacity>
-        <Text style={{
-          fontSize: 16,
-          marginLeft: 18,
-          marginTop: 18,
-        }}
+        <Text style={styles.lastTitle}
         onPress={() => props.navigation.replace("Signup")}
         >Don't have an account?</Text>
        </TouchableOpacity>
@@ -127,12 +88,3 @@ export default function LoginScreen(props) {
     </>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});

@@ -1,7 +1,8 @@
-import { StyleSheet, Text, View, StatusBar, TouchableOpacity, KeyboardAvoidingView } from 'react-native';
+import {  Text, View } from 'react-native';
 import { Button, TextInput } from 'react-native-paper';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useEffect, useState } from 'react';
+import {styles} from '../styles/AuthenticationScreenStyle.js';
 
 export default function HomeScreen(props) {
 
@@ -36,14 +37,7 @@ export default function HomeScreen(props) {
   return (
     <>
         <Text style={{fontSize: 18}}> You email is: {fetchedEmail} </Text>
-        <Button icon="camera" mode='contained' style={{ 
-            color: "white", 
-            backgroundColor: "purple",
-            borderRadius: 5,
-            marginLeft: 18,
-            marginRight: 18,
-            marginTop: 18,
-        }}
+        <Button mode='contained' style={styles.buttonStyle}
         onPress={() => onLogoutHandler()}
         >
           Logout
