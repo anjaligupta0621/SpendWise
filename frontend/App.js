@@ -8,6 +8,7 @@ import LoadingScreen from './screens/LoadingScreen';
 import HomeScreen from './screens/HomeScreen';
 import { useEffect, useState } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import UpdateProfileScreen from './screens/UpdateProfileScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -35,7 +36,10 @@ export default function App() {
         <Stack.Screen name="Home" component={HomeScreen} />
         <Stack.Screen name="Signup" component={SignUpScreen} />
         <Stack.Screen name="Login" component={LoginScreen} />
+        <Stack.Screen name="UpdateProfile" component={UpdateProfileScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );
 }
+
+// export { default } from './.storybook';

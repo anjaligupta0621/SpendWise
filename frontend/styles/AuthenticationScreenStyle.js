@@ -43,7 +43,24 @@ export const styles = StyleSheet.create({
         fontSize: 16,
         marginLeft: 18,
         marginTop: 18,
-        }
+        },
+    container: {
+      flexDirection: 'row', 
+      alignItems: 'center', 
+      justifyContent: 'space-between',
+    },
+    inputFieldLeft: {
+      flex: 1, 
+      marginLeft: 18,
+      marginRight: 6,
+      marginTop: 18,
+    },
+    inputFieldRight: {
+      flex: 1, 
+      marginLeft: 8,
+      marginRight: 18,
+      marginTop: 18,
+    }
 
 })
 // .welcomeTitle {

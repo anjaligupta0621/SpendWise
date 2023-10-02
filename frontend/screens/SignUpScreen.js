@@ -6,11 +6,15 @@ import {styles} from '../styles/AuthenticationScreenStyle.js';
 
 export default function SignUpScreen(props) {
 
+    const [firstName, setFirstName] = useState('');
+    const [lastName, setLastName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
     const onSignUpHandler = async () => {
         const data = {
+            "firstName": firstName,
+            "lastName": lastName,
             "email": email,
             "password": password
         };
@@ -52,6 +56,28 @@ export default function SignUpScreen(props) {
       <Text style={styles.subtitleStyle}>
         Create New Account
       </Text>
+
+      <View style={styles.container}>
+      <TextInput
+        style={styles.inputFieldLeft}
+        label="First Name"
+        mode='outlined'
+        value={firstName}
+        onChangeText={text => setFirstName(text)}
+        theme={{colors: {primary: "purple"}}}
+        // Add other TextInput props as needed
+      />
+      <TextInput
+        style={styles.inputFieldRight}
+        label="Last Name"
+        mode='outlined'
+        value={lastName}
+        onChangeText={text => setLastName(text)}
+        theme={{colors: {primary: "purple"}}}
+        // Add other TextInput props as needed
+      />
+    </View>
+      
       <TextInput 
         label="Email"
         mode='outlined'
