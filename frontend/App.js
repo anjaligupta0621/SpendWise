@@ -10,10 +10,11 @@ import { useEffect, useState } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import UpdateProfileScreen from './screens/UpdateProfileScreen';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { Ionicons } from '@expo/vector-icons';
 
 import LoginContext from './contexts/loginContext';
 
-// import BottomNavigation from './navigation/BottomNavigation';
+import Icon from 'react-native-vector-icons/Ionicons';  
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -48,21 +49,30 @@ export default function App() {
   },[isLoggedIn])
 
   return (
-    // <NavigationContainer>
-    //   <Stack.Navigator screenOptions={{ headerShown: false }} >
-    //     <Stack.Screen name="Loading" component={LoadingScreen} />
-    //     <Stack.Screen name="Home" component={HomeScreen} />
-    //     <Stack.Screen name="Signup" component={SignUpScreen} />
-    //     <Stack.Screen name="Login" component={LoginScreen} />
-    //     <Stack.Screen name="UpdateProfile" component={UpdateProfileScreen} />
-    //   </Stack.Navigator>
-    // </NavigationContainer>
     <LoginContext.Provider value={[isLoggedIn, setIsLoggedIn]}>
         <NavigationContainer screenOptions={{ headerShown: false }} >
           {isLoggedIn ? (
             <Tab.Navigator screenOptions={{ headerShown: false }}>
-              <Tab.Screen name="Home" component={HomeStack} />
-              <Tab.Screen name="UpdateProfile" component={ProfileStack} />
+              <Tab.Screen 
+                name="Home" 
+                component={HomeStack} 
+                options={{
+                  tabBarLabel: 'Home',
+                  tabBarIcon: ({ color, size }) => (
+                    <Ionicons name="home" color="grey" size={20} />
+                  ),
+                }} 
+              />
+              <Tab.Screen 
+                name="Profile" 
+                component={ProfileStack}
+                options={{
+                  tabBarLabel: 'Profile',
+                  tabBarIcon: ({ color, size }) => (
+                    <Ionicons name="person" color="grey" size={25} />
+                  ),
+                }}
+              />
             </Tab.Navigator>
           ) : (isLoggedIn === null ? (
               <Stack.Navigator screenOptions={{ headerShown: false }}>
