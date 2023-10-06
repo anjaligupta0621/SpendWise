@@ -1,4 +1,4 @@
-import {  StyleSheet, SafeAreaView, ScrollView, Text, View } from 'react-native';
+import {  StyleSheet, SafeAreaView, ScrollView, Text, View, TouchableOpacity, FlatList } from 'react-native';
 import { Button, TextInput } from 'react-native-paper';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useContext, useEffect, useState } from 'react';
@@ -14,6 +14,8 @@ import {
   } from 'react-native-chart-kit'
 import LoginContext from '../contexts/loginContext.js';
 
+import Icon from 'react-native-vector-icons/Ionicons';
+
 const { width } = Dimensions.get('window');
 const windowWidth = width;
 
@@ -23,12 +25,34 @@ const itemPerRow = 2;
 const totalGapSize = (itemPerRow - 1) * gap;
 const childWidth = (windowWidth - totalGapSize) / itemPerRow;
 
+const categories = [
+    { name: 'car', icon: 'car', color: 'red' },
+    { name: 'transport', icon: 'bus', color: 'green' },
+    { name: 'movies', icon: 'film', color: 'purple' },
+    { name: 'clothes', icon: 'shirt', color: 'navy' },
+    { name: 'pets', icon: 'paw', color: 'skyblue' },
+    { name: 'house', icon: 'home', color: 'orange' },
+    { name: 'groceries', icon: 'cart', color: 'green' },
+    { name: 'health', icon: 'medkit', color: 'red' },
+    { name: 'toiletries', icon: 'flask', color: 'turquoise' },
+    { name: 'eating out', icon: 'restaurant', color: 'blue' },
+    { name: 'sports', icon: 'american-football', color: 'brown' },
+    { name: 'internet', icon: 'globe', color: 'grey' },
+  ];
+
 export default function HomeScreen(props) {
 
     const [fetchedEmail, setFetchedEmail] = useState('');
     const [fetchedName, setFetchedName] = useState('');
 
     const [isLoggedIn, setIsLoggedIn] = useContext(LoginContext);
+
+    const renderItem = ({ item }) => (
+        <TouchableOpacity style={gridStyles.categoryItem}>
+          <Icon name={item.icon} size={40} color="#333" />
+          <Text>{item.name}</Text>
+        </TouchableOpacity>
+      );
 
     const fetchToken = async () => {
         const token = await AsyncStorage.getItem('token');
@@ -107,7 +131,7 @@ export default function HomeScreen(props) {
             Add your expense!
         </Button>
 
-        <Button mode='contained' style={styles.buttonStyle}
+        {/* <Button mode='contained' style={styles.buttonStyle}
             onPress={() => onUpdateProfileHandler()}
             >
             Update Profile
@@ -116,7 +140,28 @@ export default function HomeScreen(props) {
         onPress={() => onLogoutHandler()}
         >
           Logout
-       </Button>
+       </Button> */}
+       {/* <View style={gridStyles.container}>
+            <FlatList
+                data={categories}
+                renderItem={renderItem}
+                keyExtractor={(item) => item.name}
+                numColumns={3}
+            />
+        </View> */}
+        <View style={gridStyles.container}>
+            {categories.map((category) => (
+                <View style={gridStyles.categoryItem} key={category.name}>
+                <Icon
+                    name={category.icon}
+                    type='material-icons'
+                    color={category.color}
+                    size={40}
+                />
+                <Text>{category.name}</Text>
+                </View>
+            ))}
+        </View>
     </>
   );
 }
@@ -145,5 +190,34 @@ const gridStyles = StyleSheet.create({
     },
     itemStyle: {
         borderRadius: '20%',
-    }
+    },
+    // container: {
+    //     flex: 1,
+    //     padding: 16,
+    //     backgroundColor: '#fff',
+    //   },
+    //   categoryItem: {
+    //     flex: 1,
+    //     alignItems: 'center',
+    //     justifyContent: 'center',
+    //     margin: 8,
+    //     padding: 16,
+    //     borderWidth: 1,
+    //     borderColor: '#ddd',
+    //     borderRadius: 8,
+    //   },
+
+    container: {
+        flex: 1,
+        padding: 16,
+        backgroundColor: '#fff',
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+      },
+      categoryItem: {
+        width: '33.33%', // 3 items per row
+        alignItems: 'center',
+        justifyContent: 'center',
+        padding: 16,
+      },
   });
