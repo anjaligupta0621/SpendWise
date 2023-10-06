@@ -1,11 +1,14 @@
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import { StyleSheet, Text, View, StatusBar, TouchableOpacity, KeyboardAvoidingView } from 'react-native';
 import { Button, TextInput } from 'react-native-paper';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {styles} from '../styles/AuthenticationScreenStyle.js';
+import LoginContext from '../contexts/loginContext.js';
 
 
 export default function LoginScreen(props) {
+
+  const [isLoggedIn, setIsLoggedIn] = useContext(LoginContext);
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -26,6 +29,7 @@ export default function LoginScreen(props) {
         .then(response => response.json())
         .then(async (data) => {
             console.log('Login successful:', data);
+            setIsLoggedIn({isLoggedIn: true})
             try {
                 if (data && data.token) {
                     const jsonValue = JSON.stringify(data);
