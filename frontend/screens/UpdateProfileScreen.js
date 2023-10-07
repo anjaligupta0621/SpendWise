@@ -1,14 +1,17 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import { StyleSheet, Text, View, StatusBar, TouchableOpacity, KeyboardAvoidingView } from 'react-native';
 import { Button, TextInput } from 'react-native-paper';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {styles} from '../styles/AuthenticationScreenStyle.js';
+import LoginContext from '../contexts/loginContext.js';
 
 
 export default function UpdateProfileScreen(props) {
 
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
+
+    const [isLoggedIn, setIsLoggedIn] = useContext(LoginContext);
 
     const onUpdateHandler = () => {
         const data = {
@@ -18,6 +21,14 @@ export default function UpdateProfileScreen(props) {
         console.log("Profile Updated!");
         console.log(data);
         props.navigation.replace("Home");
+    }
+
+    const onLogoutHandler = () => {
+        AsyncStorage.removeItem('token')
+            .then(() => {
+                setIsLoggedIn({isLoggedIn: false});
+                // props.navigation.replace("Login")
+            })
     }
 
 
@@ -54,6 +65,11 @@ export default function UpdateProfileScreen(props) {
         onPress={() => onUpdateHandler(props)}
         >
           Update
+       </Button>
+       <Button mode='contained' style={styles.buttonStyle}
+        onPress={() => onLogoutHandler()}
+        >
+          Logout
        </Button>
        {/* <TouchableOpacity>
         <Text style={styles.lastTitle}

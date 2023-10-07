@@ -80,8 +80,8 @@ export default function App() {
               </Stack.Navigator>
             ) 
             : (<Stack.Navigator screenOptions={{ headerShown: false }}>
-              <Stack.Screen name="Signup" component={SignUpScreen} />
               <Stack.Screen name="Login" component={LoginScreen} />
+              <Stack.Screen name="Signup" component={SignUpScreen} />
             </Stack.Navigator>
           ))}
         </NavigationContainer>

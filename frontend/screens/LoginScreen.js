@@ -34,7 +34,7 @@ export default function LoginScreen(props) {
                 if (data && data.token) {
                     const jsonValue = JSON.stringify(data);
                     await AsyncStorage.setItem('token', data.token);
-                    props.navigation.replace("Home");
+                    // props.navigation.replace("Home");
                 }
             } catch(e) {
                 console.log(e);
