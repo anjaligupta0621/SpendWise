@@ -27,18 +27,18 @@ const totalGapSize = (itemPerRow - 1) * gap;
 const childWidth = (windowWidth - totalGapSize) / itemPerRow;
 
 const categories = [
-    { name: 'car', icon: 'car', color: 'red' },
-    { name: 'transport', icon: 'bus', color: 'green' },
-    { name: 'movies', icon: 'film', color: 'purple' },
-    { name: 'clothes', icon: 'shirt', color: 'navy' },
-    { name: 'pets', icon: 'paw', color: 'skyblue' },
-    { name: 'house', icon: 'home', color: 'orange' },
-    { name: 'groceries', icon: 'cart', color: 'green' },
-    { name: 'health', icon: 'medkit', color: 'red' },
-    { name: 'toiletries', icon: 'flask', color: 'turquoise' },
-    { name: 'eating out', icon: 'restaurant', color: 'blue' },
-    { name: 'sports', icon: 'american-football', color: 'brown' },
-    { name: 'internet', icon: 'globe', color: 'grey' },
+    { name: 'Car', icon: 'car', color: 'red' },
+    { name: 'Transport', icon: 'bus', color: 'green' },
+    { name: 'Movies', icon: 'film', color: 'purple' },
+    { name: 'Clothes', icon: 'shirt', color: 'navy' },
+    { name: 'Pets', icon: 'paw', color: 'skyblue' },
+    { name: 'House', icon: 'home', color: 'orange' },
+    { name: 'Groceries', icon: 'cart', color: 'green' },
+    { name: 'Health', icon: 'medkit', color: 'red' },
+    { name: 'Toiletries', icon: 'flask', color: 'turquoise' },
+    { name: 'Eating Out', icon: 'restaurant', color: 'blue' },
+    { name: 'Sports', icon: 'american-football', color: 'brown' },
+    { name: 'Internet', icon: 'globe', color: 'grey' },
   ];
 
 export default function HomeScreen(props) {

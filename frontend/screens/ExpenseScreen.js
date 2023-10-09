@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import {styles} from '../styles/AuthenticationScreenStyle.js';
 import { Button, TextInput } from 'react-native-paper';
-
+import { useNavigation } from '@react-navigation/native';
 
 
 const ExpenseScreen = ({ route }) => {
@@ -11,8 +11,11 @@ const ExpenseScreen = ({ route }) => {
   const category = route.params.category;
   const fetchedName = route.params.fetchedName;
 
+  const navigation = useNavigation();
+
   const handleAddExpense = () => {
     console.log("Expense has been added to the database.");
+    navigation.navigate('Home');
   };
 
   return (
