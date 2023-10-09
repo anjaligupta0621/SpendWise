@@ -15,6 +15,7 @@ import { Ionicons } from '@expo/vector-icons';
 import LoginContext from './contexts/loginContext';
 
 import Icon from 'react-native-vector-icons/Ionicons';  
+import ExpenseScreen from './screens/ExpenseScreen';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -70,6 +71,16 @@ export default function App() {
                   tabBarLabel: 'Profile',
                   tabBarIcon: ({ color, size }) => (
                     <Ionicons name="person" color="grey" size={25} />
+                  ),
+                }}
+              />
+              <Tab.Screen 
+                name='Expense'
+                component={ExpenseScreen}
+                options={{
+                  tabBarLabel: 'Profile',
+                  tabBarIcon: ({ color, size }) => (
+                    <Ionicons name="home" color="grey" size={25} />
                   ),
                 }}
               />

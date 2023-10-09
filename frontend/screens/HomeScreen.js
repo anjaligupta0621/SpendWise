@@ -4,6 +4,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useContext, useEffect, useState } from 'react';
 import {styles} from '../styles/AuthenticationScreenStyle.js';
 import { Dimensions } from 'react-native';
+import { useNavigation } from '@react-navigation/native'
 import {
     LineChart,
     BarChart,
@@ -42,10 +43,17 @@ const categories = [
 
 export default function HomeScreen(props) {
 
+    const navigation = useNavigation();
+
     const [fetchedEmail, setFetchedEmail] = useState('');
     const [fetchedName, setFetchedName] = useState('');
 
     const [isLoggedIn, setIsLoggedIn] = useContext(LoginContext);
+
+    const handleCategoryPress = (category) => {
+        navigation.navigate('Expense', { category, fetchedName });
+      };
+    
 
     const renderItem = ({ item }) => (
         <TouchableOpacity style={gridStyles.categoryItem}>
@@ -157,6 +165,7 @@ export default function HomeScreen(props) {
                     type='material-icons'
                     color={category.color}
                     size={40}
+                    onPress={() => handleCategoryPress(category.name)}
                 />
                 <Text>{category.name}</Text>
                 </View>
