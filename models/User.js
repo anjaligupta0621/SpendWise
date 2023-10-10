@@ -18,6 +18,27 @@ const userSchema = new mongoose.Schema({
     password: {
         type: String,
         required: true // password is required
+    },
+    income: {
+        type: Number,
+        default: 0
+    },
+    expenses: {
+        type: Object,
+        default: {
+            "Car": 0,
+            "Transport": 0,
+            "Movies": 0,
+            "Clothes": 0,
+            "Pets": 0,
+            "House": 0,
+            "Groceries": 0,
+            "Health": 0,
+            "Toiletries": 0,
+            "Eating Out": 0,
+            "Sports": 0,
+            "Internet": 0
+        }
     }
 });
 

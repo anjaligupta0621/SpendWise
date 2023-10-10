@@ -50,6 +50,9 @@ export default function HomeScreen(props) {
 
     const [isLoggedIn, setIsLoggedIn] = useContext(LoginContext);
 
+    const [income, setIncome] = useState(0);
+    const [isIncome, setIsIncome] = useState(false);
+
     const handleCategoryPress = (category) => {
         navigation.navigate('Expense', { category, fetchedName });
       };
@@ -98,6 +101,11 @@ export default function HomeScreen(props) {
         props.navigation.replace("UpdateProfile");
     }
 
+    const onAddIncomeHandler = () => {
+        console.log("Adding income...");
+        setIsIncome(false);
+    }
+
     const data = {
         labels: ["Swim", "Bike", "Run", "Saving"], // optional
         data: [0.4, 0.6, 0.8, 0.2]
@@ -134,29 +142,33 @@ export default function HomeScreen(props) {
         />
 
         <Button mode='contained' style={styles.buttonStyle}
-            onPress={() => console.log("Expense to be added")}
+            onPress={() => setIsIncome(true)}
             >
-            Add your expense!
+            Add your income!
         </Button>
 
-        {/* <Button mode='contained' style={styles.buttonStyle}
-            onPress={() => onUpdateProfileHandler()}
-            >
-            Update Profile
-       </Button>
-        <Button mode='contained' style={styles.buttonStyle}
-        onPress={() => onLogoutHandler()}
-        >
-          Logout
-       </Button> */}
-       {/* <View style={gridStyles.container}>
-            <FlatList
-                data={categories}
-                renderItem={renderItem}
-                keyExtractor={(item) => item.name}
-                numColumns={3}
-            />
-        </View> */}
+        {isIncome ? (
+            <>
+                <TextInput 
+                    label="Income"
+                    mode='outlined'
+                    value={income}
+                    onChangeText={(text) => setIncome(text)}
+                    style = {styles.inputFieldStyle}
+                    theme={{colors: {primary: "purple"}}}
+                />
+                <Button mode='contained' style={styles.buttonStyle}
+                    onPress={onAddIncomeHandler}
+                    >
+                    Add
+                </Button>
+            </>
+       ) : null }
+
+        <Text style={gridStyles.normalHeading}>
+            Choose a category below to add an expense
+        </Text>
+
         <View style={gridStyles.container}>
             {categories.map((category) => (
                 <View style={gridStyles.categoryItem} key={category.name}>
@@ -200,22 +212,6 @@ const gridStyles = StyleSheet.create({
     itemStyle: {
         borderRadius: '20%',
     },
-    // container: {
-    //     flex: 1,
-    //     padding: 16,
-    //     backgroundColor: '#fff',
-    //   },
-    //   categoryItem: {
-    //     flex: 1,
-    //     alignItems: 'center',
-    //     justifyContent: 'center',
-    //     margin: 8,
-    //     padding: 16,
-    //     borderWidth: 1,
-    //     borderColor: '#ddd',
-    //     borderRadius: 8,
-    //   },
-
     container: {
         flex: 1,
         padding: 16,
@@ -229,4 +225,10 @@ const gridStyles = StyleSheet.create({
         justifyContent: 'center',
         padding: 16,
       },
+      normalHeading: {
+        fontWeight: 'bold',
+        margin: 10,
+        fontSize: 16,
+        alignSelf: 'center',
+      }
   });

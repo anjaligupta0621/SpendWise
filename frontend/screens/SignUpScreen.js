@@ -1,8 +1,9 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import { StyleSheet, Text, View, StatusBar, TouchableOpacity, KeyboardAvoidingView } from 'react-native';
 import { Button, TextInput } from 'react-native-paper';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {styles} from '../styles/AuthenticationScreenStyle.js';
+import LoginContext from '../contexts/loginContext.js';
 
 export default function SignUpScreen(props) {
 
@@ -10,6 +11,8 @@ export default function SignUpScreen(props) {
     const [lastName, setLastName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+
+    const [isLoggedIn, setIsLoggedIn] = useContext(LoginContext);
 
     const onSignUpHandler = async () => {
         const data = {
@@ -32,7 +35,8 @@ export default function SignUpScreen(props) {
             try {
                 const jsonValue = JSON.stringify(data);
                 await AsyncStorage.setItem('token', data.token);
-                props.navigation.replace("Home");
+                setIsLoggedIn({isLoggedIn: true})
+                // props.navigation.replace("Home");
             } catch(e) {
                 console.log(e);
             }
