@@ -101,8 +101,25 @@ export default function HomeScreen(props) {
         props.navigation.replace("UpdateProfile");
     }
 
-    const onAddIncomeHandler = () => {
+    const onAddIncomeHandler = async () => {
+        const data = {
+            email: fetchedEmail,
+            fetchedIncome: income
+        }
         console.log("Adding income...");
+        const response = await fetch("http://localhost:3000/updateIncome", {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data),
+        });
+        if (response) {
+            console.log("Income added!")
+            setIncome(null)
+        } else {
+            console.log("Error adding income!")
+        }
         setIsIncome(false);
     }
 
