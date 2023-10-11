@@ -10,12 +10,31 @@ const ExpenseScreen = ({ route }) => {
   const [expense, setExpense] = useState('');
   const category = route.params.category;
   const fetchedName = route.params.fetchedName;
+  const fetchedEmail = route.params.fetchedEmail;
 
   const navigation = useNavigation();
 
-  const handleAddExpense = () => {
+  const handleAddExpense = async () => {
     console.log("Expense has been added to the database.");
-    navigation.navigate('Home');
+    const data = {
+        email: fetchedEmail,
+        category: category,
+        expense: expense
+    }
+    console.log("Adding expense...");
+    const response = await fetch("http://localhost:3000/updateExpenses", {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data),
+    });
+    if (response) {
+        console.log("Expense added!")
+        navigation.navigate('Home');
+    } else {
+        console.log("Error adding income!")
+    }    
   };
 
   return (

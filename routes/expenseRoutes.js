@@ -25,4 +25,22 @@ router.post('/updateIncome', async (req, res) => {
 
 })
 
+router.post('/updateExpenses', async (req, res) => {
+    const { email, category, expense } = req.body;
+    console.log("Backend: ", email);
+    console.log("Backend: ", category);
+    console.log("Backend: ", expense);
+    if (!category) {
+        return res.status(422).send({error: "Must add a category"});
+    }
+    const user = await User.findOneAndUpdate({email}, {
+        $inc: {[`expenses.${category}`]: parseFloat(expense)}
+    }).then((response) => {
+        res.send(response);
+    }).catch((err) => {
+        res.send(err);
+    })
+
+})
+
 module.exports = router;

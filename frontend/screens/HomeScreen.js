@@ -54,7 +54,7 @@ export default function HomeScreen(props) {
     const [isIncome, setIsIncome] = useState(false);
 
     const handleCategoryPress = (category) => {
-        navigation.navigate('Expense', { category, fetchedName });
+        navigation.navigate('Expense', { category, fetchedEmail, fetchedName });
       };
     
 
