@@ -8,7 +8,7 @@ import { useNavigation } from '@react-navigation/native';
 
 export default function LoginScreen(props) {
 
-  const [isLoggedIn, setIsLoggedIn] = useContext(LoginContext);
+    const [isLoggedIn, setIsLoggedIn] = useContext(LoginContext);
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -20,6 +20,11 @@ export default function LoginScreen(props) {
             "email": email,
             "password": password
         };
+
+        if (email == '' || password == '') {
+            alert("Please fill in all fields!");
+            return;
+        }
 
         fetch('http://localhost:3000/signin', {
             method: 'POST',

@@ -77,16 +77,6 @@ export default function App() {
                   ),
                 }}
               />
-              {/* <Tab.Screen 
-                name='Expense'
-                component={ExpenseScreen}
-                options={{
-                  tabBarLabel: 'Profile',
-                  tabBarIcon: ({ color, size }) => (
-                    <Ionicons name="card" color="grey" size={25} />
-                  ),
-                }}
-              /> */}
             </Tab.Navigator>
           ) : (isLoggedIn === null ? (
               <Stack.Navigator screenOptions={{ headerShown: false }}>

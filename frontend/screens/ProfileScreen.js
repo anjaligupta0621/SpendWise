@@ -24,17 +24,6 @@ export default function UpdateProfileScreen(props) {
         })
             .then((response) => response.json())
             .then((data) => {
-                // if (data && data.email) {
-                //     setEmail(data.email)
-                // }
-                // if (data && data.firstName) {
-                //     setFirstName(data.firstName)
-                //     console.log("Fetched firstname: ", data.firstName);
-                // }
-                // if (data && data.lastName) {
-                //     setLastName(data.lastName)
-                //     console.log("Fetched lastName: ", data.lastName);
-                // }
                 if (data) {
                     setEmail(data.email)
                     setFirstName(data.firstName)

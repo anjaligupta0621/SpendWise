@@ -26,6 +26,12 @@ export const styles = StyleSheet.create({
         marginTop: 20,
         fontWeight: "bold",
       },
+      textStyle: {
+        fontSize: 15,
+        marginLeft: 18,
+        marginTop: 20,
+        fontWeight: "bold",
+      },
     inputFieldStyle: {
         marginLeft: 18,
         marginRight: 18,

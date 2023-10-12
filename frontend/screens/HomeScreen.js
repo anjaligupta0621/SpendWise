@@ -205,10 +205,6 @@ export default function HomeScreen(props) {
         setPieData1(updatedPieData);
       };
 
-    const data = {
-        labels: ["Swim", "Bike", "Run", "Saving"], // optional
-        data: [0.4, 0.6, 0.8, 0.2]
-      };
 
         const chartConfig = {
         backgroundGradientFrom: "#1E2923",
@@ -323,7 +319,7 @@ const gridStyles = StyleSheet.create({
     },
     container: {
         flex: 1,
-        padding: 16,
+        padding: 10,
         backgroundColor: '#fff',
         flexDirection: 'row',
         flexWrap: 'wrap',
