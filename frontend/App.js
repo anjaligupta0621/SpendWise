@@ -16,6 +16,7 @@ import LoginContext from './contexts/loginContext';
 
 import Icon from 'react-native-vector-icons/Ionicons';  
 import ExpenseScreen from './screens/ExpenseScreen';
+import ProfileScreen from './screens/ProfileScreen';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -29,6 +30,7 @@ const HomeStack = () => (
 
 const ProfileStack = () => (
   <Stack.Navigator screenOptions={{ headerShown: false }} >
+    <Stack.Screen name="UserProfile" component={ProfileScreen} />
     <Stack.Screen name="UpdateProfile" component={UpdateProfileScreen} />
   </Stack.Navigator>
 );

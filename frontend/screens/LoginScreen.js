@@ -4,7 +4,7 @@ import { Button, TextInput } from 'react-native-paper';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {styles} from '../styles/AuthenticationScreenStyle.js';
 import LoginContext from '../contexts/loginContext.js';
-
+import { useNavigation } from '@react-navigation/native';
 
 export default function LoginScreen(props) {
 
@@ -12,6 +12,8 @@ export default function LoginScreen(props) {
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+
+    const navigation = useNavigation();
     
     const onLoginHandler = async (props) => {
         const data = {
@@ -35,6 +37,7 @@ export default function LoginScreen(props) {
                     const jsonValue = JSON.stringify(data);
                     await AsyncStorage.setItem('token', data.token);
                     // props.navigation.replace("Home");
+                    // navigation.navigate('Home');
                 }
             } catch(e) {
                 console.log(e);
@@ -45,6 +48,7 @@ export default function LoginScreen(props) {
         })
         ;
     }
+
 
   return (
     <>

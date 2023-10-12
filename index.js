@@ -33,7 +33,8 @@ app.post('/', (req, res) => {
 });
 
 app.get('/', requireToken, (req, res) => {
-    res.send({email: req.user.email, firstName: req.user.firstName});
+    // res.send({email: req.user.email, firstName: req.user.firstName, lastName: req.user.lastName});
+    res.send(req.user);
 })
 
 app.listen(PORT, () => {

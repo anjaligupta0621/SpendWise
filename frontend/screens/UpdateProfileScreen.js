@@ -20,7 +20,7 @@ export default function UpdateProfileScreen(props) {
         };
         console.log("Profile Updated!");
         console.log(data);
-        props.navigation.replace("Home");
+        props.navigation.replace("UserProfile");
     }
 
     const onLogoutHandler = () => {
