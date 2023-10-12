@@ -5,16 +5,9 @@ import { useContext, useEffect, useState } from 'react';
 import {styles} from '../styles/AuthenticationScreenStyle.js';
 import { Dimensions } from 'react-native';
 import { useNavigation } from '@react-navigation/native'
-import {
-    LineChart,
-    BarChart,
-    PieChart,
-    ProgressChart,
-    ContributionGraph,
-    StackedBarChart
-  } from 'react-native-chart-kit'
+import { PieChart } from 'react-native-chart-kit'
 import LoginContext from '../contexts/loginContext.js';
-
+import {categories} from '../data/homedata.js';
 import Icon from 'react-native-vector-icons/Ionicons';
 
 const { width } = Dimensions.get('window');
@@ -25,21 +18,6 @@ const itemPerRow = 2;
 
 const totalGapSize = (itemPerRow - 1) * gap;
 const childWidth = (windowWidth - totalGapSize) / itemPerRow;
-
-const categories = [
-    { name: 'Car', icon: 'car', color: 'red' },
-    { name: 'Transport', icon: 'bus', color: 'green' },
-    { name: 'Movies', icon: 'film', color: 'purple' },
-    { name: 'Clothes', icon: 'shirt', color: 'navy' },
-    { name: 'Pets', icon: 'paw', color: 'skyblue' },
-    { name: 'House', icon: 'home', color: 'orange' },
-    { name: 'Groceries', icon: 'cart', color: 'green' },
-    { name: 'Health', icon: 'medkit', color: 'red' },
-    { name: 'Toiletries', icon: 'flask', color: 'turquoise' },
-    { name: 'Eating Out', icon: 'restaurant', color: 'blue' },
-    { name: 'Sports', icon: 'american-football', color: 'brown' },
-    { name: 'Internet', icon: 'globe', color: 'grey' },
-  ];
 
 export default function HomeScreen(props) {
 
@@ -52,6 +30,9 @@ export default function HomeScreen(props) {
 
     const [income, setIncome] = useState(0);
     const [isIncome, setIsIncome] = useState(false);
+
+    const [fetchedExpenses, setFetchedExpenses] = useState(null);
+    const [pieData1, setPieData1] = useState(null);
 
     const handleCategoryPress = (category) => {
         navigation.navigate('Expense', { category, fetchedEmail, fetchedName });
@@ -74,12 +55,101 @@ export default function HomeScreen(props) {
         })
             .then((response) => response.json())
             .then((data) => {
-                if (data && data.email) {
+                if (data) {
                     setFetchedEmail(data.email)
-                }
-                if (data && data.firstName) {
                     setFetchedName(data.firstName)
                     console.log("Fetched firstname: ", data.firstName);
+                    setFetchedExpenses(data.expenses)
+                    console.log("Fetched expenses: ", data.expenses);
+
+                    const pieData = [
+                        {
+                        name: "Car",
+                        value: parseFloat(data.expenses['Car']),
+                        color: "skyblue",
+                        legendFontColor: "#181818",
+                        legendFontSize: 15
+                        },
+                        {
+                        name: "Clothes",
+                        value: data.expenses['Clothes'],
+                        color: "blue",
+                        legendFontColor: "#181818",
+                        legendFontSize: 15
+                        },
+                        {
+                        name: "Eating Out",
+                        value: data.expenses['Eating Out'],
+                        color: "red",
+                        legendFontColor: "#181818",
+                        legendFontSize: 15
+                        },
+                        {
+                        name: "Groceries",
+                        value: data.expenses['Groceries'],
+                        color: "green",
+                        legendFontColor: "#181818",
+                        legendFontSize: 15
+                        },
+                        {
+                        name: "Transport",
+                        value: data.expenses['Transport'],
+                        color: "purple",
+                        legendFontColor: "#181818",
+                        legendFontSize: 15
+                        },
+                        {
+                        name: "Movies",
+                        value: data.expenses['Movies'],
+                        color: "yellow",
+                        legendFontColor: "#181818",
+                        legendFontSize: 15
+                        },
+                        {
+                        name: "House",
+                        value: data.expenses['House'],
+                        color: "orange",
+                        legendFontColor: "#181818",
+                        legendFontSize: 15
+                        },
+                        {
+                        name: "Pets",
+                        value: data.expenses['Pets'],
+                        color: "brown",
+                        legendFontColor: "#181818",
+                        legendFontSize: 15
+                        },
+                        {
+                        name: "Health",
+                        value: data.expenses['Health'],
+                        color: "pink",
+                        legendFontColor: "#181818",
+                        legendFontSize: 15
+                        },
+                        {
+                        name: "Toiletries",
+                        value: data.expenses['Toiletries'],
+                        color: "turquoise",
+                        legendFontColor: "#181818",
+                        legendFontSize: 15
+                        },
+                        {
+                        name: "Internet",
+                        value: data.expenses['Internet'],
+                        color: "grey",
+                        legendFontColor: "#181818",
+                        legendFontSize: 15
+                        },
+                        {
+                        name: "Sports",
+                        value: data.expenses['Sports'],
+                        color: "black",
+                        legendFontColor: "#181818",
+                        legendFontSize: 15
+                        },
+                        ];
+                        setPieData1(pieData);
+                
                 }
             });
     }
@@ -123,10 +193,32 @@ export default function HomeScreen(props) {
         setIsIncome(false);
     }
 
+    const handleExpenseAdded = ({ category, expense }) => {
+        // Calculate the new total expense for the category and update the state
+        const updatedPieData = pieData1.map((item) => {
+          if (item.name === category) {
+            item.value += expense;
+          }
+          return item;
+        });
+      
+        setPieData1(updatedPieData);
+      };
+
     const data = {
         labels: ["Swim", "Bike", "Run", "Saving"], // optional
         data: [0.4, 0.6, 0.8, 0.2]
       };
+
+        const chartConfig = {
+        backgroundGradientFrom: "#1E2923",
+        backgroundGradientFromOpacity: 0,
+        backgroundGradientTo: "#08130D",
+        backgroundGradientToOpacity: 0.5,
+        color: (opacity = 1) => `rgba(26, 255, 146, ${opacity})`,
+        strokeWidth: 2, // optional, default 3
+        barPercentage: 0.5
+        };
 
   return (
     <>
@@ -139,24 +231,16 @@ export default function HomeScreen(props) {
         <View style={{
             marginBottom: 20,
             ...styles.borderStyle}} />
-        <ProgressChart
-            data={data}
-            width={windowWidth-18}
+        {pieData1 && <PieChart
+            data={pieData1}
+            width={windowWidth}
             height={220}
-            strokeWidth={16}
-            radius={32}
-            chartConfig={{
-                backgroundColor: 'white',
-                backgroundGradientFrom: 'white',
-                backgroundGradientTo: 'white',
-                color: (opacity = 1) => `rgba(${128}, ${0}, ${128}, ${opacity})`
-              }}
-            style={{ 
-                marginLeft: 18,
-                marginRight: 18 
-            }}
-            hideLegend={false}
-        />
+            chartConfig={chartConfig}
+            accessor="value"
+            backgroundColor="transparent"
+            paddingLeft="20"
+            absolute
+        />}
 
         <Button mode='contained' style={styles.buttonStyle}
             onPress={() => setIsIncome(true)}
@@ -194,7 +278,15 @@ export default function HomeScreen(props) {
                     type='material-icons'
                     color={category.color}
                     size={40}
-                    onPress={() => handleCategoryPress(category.name)}
+                    // onPress={() => handleCategoryPress(category.name)}
+                    onPress={() =>
+                        navigation.navigate('Expense', {
+                          category: category.name,
+                          fetchedEmail,
+                          fetchedName,
+                          onExpenseAdded: handleExpenseAdded, // Pass the function as a prop
+                        })
+                      }
                 />
                 <Text>{category.name}</Text>
                 </View>

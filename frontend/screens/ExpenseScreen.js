@@ -14,6 +14,29 @@ const ExpenseScreen = ({ route }) => {
 
   const navigation = useNavigation();
 
+  // const handleAddExpense = async () => {
+    // console.log("Expense has been added to the database.");
+    // const data = {
+    //     email: fetchedEmail,
+    //     category: category,
+    //     expense: expense
+    // }
+    // console.log("Adding expense...");
+    // const response = await fetch("http://localhost:3000/updateExpenses", {
+    //     method: 'POST',
+    //     headers: {
+    //         'Content-Type': 'application/json'
+    //     },
+    //     body: JSON.stringify(data),
+    // });
+  //   if (response) {
+  //       console.log("Expense added!")
+  //       navigation.navigate('Home');
+  //   } else {
+  //       console.log("Error adding income!")
+  //   }    
+  // };
+
   const handleAddExpense = async () => {
     console.log("Expense has been added to the database.");
     const data = {
@@ -30,11 +53,18 @@ const ExpenseScreen = ({ route }) => {
         body: JSON.stringify(data),
     });
     if (response) {
-        console.log("Expense added!")
-        navigation.navigate('Home');
+      console.log("Expense added!");
+  
+      // Pass the new expense data back to the home screen.
+      route.params.onExpenseAdded({
+        category: category,
+        expense: parseFloat(expense), // Convert the expense to a float
+      });
+  
+      navigation.goBack(); // Go back to the previous screen
     } else {
-        console.log("Error adding income!")
-    }    
+      console.log("Error adding expense!");
+    }
   };
 
   return (
