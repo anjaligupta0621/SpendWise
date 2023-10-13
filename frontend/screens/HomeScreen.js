@@ -68,7 +68,7 @@ export default function HomeScreen(props) {
                         value: parseFloat(data.expenses['Car']),
                         color: "skyblue",
                         legendFontColor: "#181818",
-                        legendFontSize: 15
+                        legendFontSize: 15,
                         },
                         {
                         name: "Clothes",
@@ -205,16 +205,19 @@ export default function HomeScreen(props) {
         setPieData1(updatedPieData);
       };
 
-
         const chartConfig = {
-        backgroundGradientFrom: "#1E2923",
-        backgroundGradientFromOpacity: 0,
-        backgroundGradientTo: "#08130D",
-        backgroundGradientToOpacity: 0.5,
-        color: (opacity = 1) => `rgba(26, 255, 146, ${opacity})`,
-        strokeWidth: 2, // optional, default 3
-        barPercentage: 0.5
-        };
+            backgroundGradientFrom: "#1E2923",
+            backgroundGradientFromOpacity: 0,
+            backgroundGradientTo: "#08130D",
+            backgroundGradientToOpacity: 0.5,
+            color: (opacity = 1) => `rgba(26, 255, 146, ${opacity})`,
+            strokeWidth: 2,
+            barPercentage: 0.5,
+            decimalPlaces: 1, 
+            style: {
+              fontSize: 12, 
+            },
+          };
 
   return (
     <>
@@ -230,7 +233,7 @@ export default function HomeScreen(props) {
         {pieData1 && <PieChart
             data={pieData1}
             width={windowWidth}
-            height={220}
+            height={300}
             chartConfig={chartConfig}
             accessor="value"
             backgroundColor="transparent"
@@ -266,28 +269,30 @@ export default function HomeScreen(props) {
             Choose a category below to add an expense
         </Text>
 
-        <View style={gridStyles.container}>
-            {categories.map((category) => (
-                <View style={gridStyles.categoryItem} key={category.name}>
-                <Icon
-                    name={category.icon}
-                    type='material-icons'
-                    color={category.color}
-                    size={40}
-                    // onPress={() => handleCategoryPress(category.name)}
-                    onPress={() =>
-                        navigation.navigate('Expense', {
-                          category: category.name,
-                          fetchedEmail,
-                          fetchedName,
-                          onExpenseAdded: handleExpenseAdded, // Pass the function as a prop
-                        })
-                      }
-                />
-                <Text>{category.name}</Text>
-                </View>
-            ))}
-        </View>
+        <ScrollView>
+            <View style={gridStyles.container}>
+                {categories.map((category) => (
+                    <View style={gridStyles.categoryItem} key={category.name}>
+                    <Icon
+                        name={category.icon}
+                        type='material-icons'
+                        color={category.color}
+                        size={40}
+                        onPress={() =>
+                            navigation.navigate('Expense', {
+                            category: category.name,
+                            fetchedEmail,
+                            fetchedName,
+                            onExpenseAdded: handleExpenseAdded, 
+                            })
+                        }
+                    />
+                    <Text>{category.name}</Text>
+                    </View>
+                ))}
+            </View>
+        </ScrollView>
+
     </>
   );
 }
@@ -319,10 +324,11 @@ const gridStyles = StyleSheet.create({
     },
     container: {
         flex: 1,
-        padding: 10,
+        padding: 5,
         backgroundColor: '#fff',
         flexDirection: 'row',
         flexWrap: 'wrap',
+        ScrollView: 'vertical',
       },
       categoryItem: {
         width: '33.33%', // 3 items per row
