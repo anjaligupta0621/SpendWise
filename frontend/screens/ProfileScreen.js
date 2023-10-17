@@ -23,7 +23,7 @@ export default function UpdateProfileScreen(props) {
 
     const [isLoggedIn, setIsLoggedIn] = useContext(LoginContext);
 
-    const [selectedAvatar, setSelectedAvatar] = useState(avatarList[0]);
+    const [selectedAvatar, setSelectedAvatar] = useState(avatarList[0][0]);
     const [isEditMode, setIsEditMode] = useState(false);
 
     const updateAvatar = (avatar) => {
@@ -165,12 +165,12 @@ const avatarStyles = StyleSheet.create({
     avatarImage: {
       width: '100%',
       height: '100%',
-      alignItems: 'center',
-      alignContent: 'center',
     },
     selectedAvatarImage: {
       width: 120, 
       height: 120, 
+      marginLeft: '35%',
+      borderRadius: 60,
     },
     avatarContainer: {
         position: 'relative',
