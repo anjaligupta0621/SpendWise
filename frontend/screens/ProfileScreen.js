@@ -72,7 +72,6 @@ export default function UpdateProfileScreen(props) {
         AsyncStorage.removeItem('token')
             .then(() => {
                 setIsLoggedIn({isLoggedIn: false});
-                // props.navigation.replace("Login")
             })
     }
 
@@ -93,7 +92,6 @@ export default function UpdateProfileScreen(props) {
 
       <View style={avatarStyles.avatarContainer}>
         {isEditMode ? (
-            // Render avatars to choose from when in edit mode
             <View style={avatarStyles.avatarList}>
             {avatarList.map((group, groupIndex) => (
                 <View key={groupIndex} style={avatarStyles.avatarGroup}>
@@ -113,7 +111,7 @@ export default function UpdateProfileScreen(props) {
             ))}
             </View>
         ) : (
-            // Render the default avatar when not in edit mode
+            
             <Image source={selectedAvatar} style={avatarStyles.selectedAvatarImage} />
         )}
 
@@ -154,11 +152,6 @@ export default function UpdateProfileScreen(props) {
 }
 
 const avatarStyles = StyleSheet.create({
-    // avatarContainer: {
-    //   flexDirection: 'row',
-    //   justifyContent: 'center',
-    //   alignItems: 'center',
-    // },
     avatarThumbnail: {
       width: 80,
       height: 80,
@@ -167,7 +160,7 @@ const avatarStyles = StyleSheet.create({
       borderColor: 'transparent',
     },
     selectedAvatar: {
-      borderColor: 'blue', // You can use a different color to indicate the selected avatar
+      borderColor: 'blue', 
     },
     avatarImage: {
       width: '100%',
@@ -176,30 +169,24 @@ const avatarStyles = StyleSheet.create({
       alignContent: 'center',
     },
     selectedAvatarImage: {
-      width: 120, // Adjust the size as needed
-      height: 120, // Adjust the size as needed
+      width: 120, 
+      height: 120, 
     },
-    // editIcon: {
-    //     position: 'absolute',
-    //     top: 10,
-    //     right: 10,
-    //   },
     avatarContainer: {
         position: 'relative',
       },
       avatarList: {
-        flexDirection: 'column', // Display avatars in a column layout
+        flexDirection: 'column', 
       },
       avatarGroup: {
         flexDirection: 'row',
         justifyContent: 'space-between',
-        marginBottom: 10, // Add spacing between rows
+        marginBottom: 10, 
       },
       editIcon: {
         position: 'absolute',
-        top: -25, // Adjust this value to move the icon further above
+        top: -25, 
         right: 10,
       },
-    // Add other styles as needed
   });
   
