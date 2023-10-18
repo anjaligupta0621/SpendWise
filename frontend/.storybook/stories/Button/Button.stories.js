@@ -7,14 +7,25 @@ export default {
   component: MyButton,
   argTypes: {
     onPress: { action: 'pressed the button' },
-    text: 'Hello world',
+    // text: 'Hello world',
   },
+  args: {
+    text: 'Hello world',
+    onPress: { action: 'pressed the button' },
+  },
+  decorators: [
+    (Story) => (
+      <View style={{ alignItems: 'center', justifyContent: 'center', flex: 1 }}>
+        <Story />
+      </View>
+    ),
+  ],
 };
 
 export const MyFirstStory = {
   args: {
     task: 'Hello world',
     onPress: { action: 'pressed the button' },
-  },
+  }
 };
 
