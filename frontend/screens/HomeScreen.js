@@ -34,6 +34,9 @@ export default function HomeScreen(props) {
     const [fetchedExpenses, setFetchedExpenses] = useState(null);
     const [pieData1, setPieData1] = useState(null);
 
+    const [fetchedTotalExpenses, setFetchedTotalExpenses] = useState(0);
+    const [fetchedIncome, setFetchedIncome] = useState(0);
+
     const handleCategoryPress = (category) => {
         navigation.navigate('Expense', { category, fetchedEmail, fetchedName });
       };
@@ -61,6 +64,10 @@ export default function HomeScreen(props) {
                     console.log("Fetched firstname: ", data.firstName);
                     setFetchedExpenses(data.expenses)
                     console.log("Fetched expenses: ", data.expenses);
+                    setFetchedTotalExpenses(data.totalExpenses)
+                    console.log("Fetched total expenses: ", data.totalExpenses);
+                    setFetchedIncome(data.income);
+                    console.log("Fetched income: ", data.income);
 
                     const pieData = [
                         {
@@ -147,6 +154,13 @@ export default function HomeScreen(props) {
                         legendFontColor: "#181818",
                         legendFontSize: 15
                         },
+                        {
+                        name: "Savings",
+                        value: data.income - data.totalExpenses,
+                        color: "#abf7b1",
+                        legendFontColor: "#181818",
+                        legendFontSize: 15
+                        }
                         ];
                         setPieData1(pieData);
                 
@@ -156,7 +170,7 @@ export default function HomeScreen(props) {
 
     useEffect(() => {
         fetchToken();
-    }, [])
+    }, [fetchedIncome])
 
     const onLogoutHandler = () => {
         AsyncStorage.removeItem('token')
@@ -185,7 +199,8 @@ export default function HomeScreen(props) {
             body: JSON.stringify(data),
         });
         if (response) {
-            console.log("Income added!")
+            console.log("Income added!");
+            setFetchedIncome(fetchedIncome + parseFloat(income));
             setIncome(null)
         } else {
             console.log("Error adding income!")
@@ -198,6 +213,9 @@ export default function HomeScreen(props) {
         const updatedPieData = pieData1.map((item) => {
           if (item.name === category) {
             item.value += expense;
+          }
+          if (item.name === "Savings") {
+            item.value -= expense;
           }
           return item;
         });
@@ -278,13 +296,17 @@ export default function HomeScreen(props) {
                         type='material-icons'
                         color={category.color}
                         size={40}
-                        onPress={() =>
+                        onPress={() =>{
+                            if (fetchedIncome === 0) {
+                                alert("Please add your income first!")
+                                return;
+                            }
                             navigation.navigate('Expense', {
                             category: category.name,
                             fetchedEmail,
                             fetchedName,
                             onExpenseAdded: handleExpenseAdded, 
-                            })
+                            })}
                         }
                     />
                     <Text>{category.name}</Text>

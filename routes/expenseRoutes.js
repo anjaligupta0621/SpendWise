@@ -15,7 +15,7 @@ router.post('/updateIncome', async (req, res) => {
     }
     const user = await User.findOneAndUpdate({email}, {
         $inc: {
-            income: parseFloat(fetchedIncome)
+            income: parseFloat(fetchedIncome),
         }
     }).then((response) => {
         res.send(response);
@@ -34,7 +34,10 @@ router.post('/updateExpenses', async (req, res) => {
         return res.status(422).send({error: "Must add a category"});
     }
     const user = await User.findOneAndUpdate({email}, {
-        $inc: {[`expenses.${category}`]: parseFloat(expense)}
+        $inc: {
+            [`expenses.${category}`]: parseFloat(expense),
+            totalExpenses: parseFloat(expense)
+        }
     }).then((response) => {
         res.send(response);
     }).catch((err) => {

@@ -39,7 +39,15 @@ const userSchema = new mongoose.Schema({
             "Sports": 0,
             "Internet": 0
         }
-    }
+    },
+    avatarIndex: {
+        type: Number,
+        default: 0
+    },
+    totalExpenses: {
+        type: Number,
+        default: 0
+    },
 });
 
 userSchema.pre('save', function(next) {

@@ -10,9 +10,11 @@ const requireToken = require('./middleware/requireToken');
 
 const authRoutes = require('./routes/authRoutes');
 const expenseRoutes = require('./routes/expenseRoutes');
+const profileRoutes = require('./routes/profileRoutes');
 app.use(bodyParser.json());
 app.use(authRoutes);
-app.use(expenseRoutes)
+app.use(expenseRoutes);
+app.use(profileRoutes);
 
 mongoose.connect(mongoUrl, {
     useNewUrlParser: true,
