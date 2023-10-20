@@ -11,4 +11,5 @@ export const categories = [
     { name: 'Eating Out', icon: 'restaurant', color: 'blue' },
     { name: 'Sports', icon: 'american-football', color: 'brown' },
     { name: 'Internet', icon: 'globe', color: 'grey' },
+    { name: 'Custom', icon: 'add-circle', color: 'pink'}
   ];

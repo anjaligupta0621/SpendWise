@@ -37,7 +37,8 @@ const userSchema = new mongoose.Schema({
             "Toiletries": 0,
             "Eating Out": 0,
             "Sports": 0,
-            "Internet": 0
+            "Internet": 0,
+            "Custom": 0,
         }
     },
     avatarIndex: {

@@ -3,7 +3,7 @@ import { View } from 'react-native';
 import { MyInput } from './Input';
 
 export default {
-  title: "MyInput",
+  title: "components/MyInput",
   component: MyInput,
 //   argTypes: {
 //     onPress: { action: 'pressed the button' },

@@ -155,6 +155,13 @@ export default function HomeScreen(props) {
                         legendFontSize: 15
                         },
                         {
+                        name: "Custom",
+                        value: data.expenses['Custom'],
+                        color: "navy",
+                        legendFontColor: "#181818",
+                        legendFontSize: 15
+                        },
+                        {
                         name: "Savings",
                         value: data.income - data.totalExpenses,
                         color: "#abf7b1",

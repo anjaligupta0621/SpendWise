@@ -46,9 +46,19 @@ try {
 } catch {}
 
 const getStories = () => {
-  return {
+  return [
+    {
     "./.storybook/stories/Button/Button.stories.js": require("./stories/Button/Button.stories.js"),
-  };
+  },
+  {
+    "./.storybook/stories/Input/Input.stories.js": require("./stories/Input/Input.stories.js"),
+  },
+  
+];
+  // {
+  //   "./.storybook/stories/Input/Input.stories.js": require("./stories/Input/Input.stories.js"),
+  // }
+  
 };
 
 configure(getStories, module, false);

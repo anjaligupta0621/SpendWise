@@ -3,7 +3,7 @@ import { View } from 'react-native';
 import { MyButton } from './Button';
 
 export default {
-  title: "MyButton",
+  title: "components/MyButton",
   component: MyButton,
   argTypes: {
     onPress: { action: 'pressed the button' },
@@ -22,10 +22,10 @@ export default {
   ],
 };
 
-export const MyFirstStory = {
-  args: {
-    task: 'Hello world',
-    onPress: { action: 'pressed the button' },
-  }
-};
+// export const MyFirstStory = {
+//   args: {
+//     text: 'Hello world',
+//     onPress: { action: 'pressed the button' },
+//   }
+// };
 
