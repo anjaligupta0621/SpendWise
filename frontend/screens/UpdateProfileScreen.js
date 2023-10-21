@@ -25,19 +25,43 @@ export default function UpdateProfileScreen(props) {
 
     const [selectedAvatarId, setSelectedAvatarId] = useState(0);
 
+    const email = props.route.params.email;
+
     const updateAvatar = (avatar) => {
       setSelectedAvatarId(avatar.id);
     }
 
-    const onUpdateHandler = () => {
+    const onUpdateHandler = async () => {
+      var fName = firstName;
+      var lName = lastName;
+      if (firstName === "") {
+        fName = props.route.params.firstName;
+      }
+      if (lastName === "") {
+        lName = props.route.params.lastName;
+      }
         const data = {
-            firstName,
-            lastName,
-            avatarIndex: selectedAvatarId,
+            email,
+            firstName: fName,
+            lastName: lName,
+            selectedAvatarIndex: selectedAvatarId,
         };
         console.log("Profile Updated!");
         console.log(data);
-        navigate.navigate("UserProfile");
+        const response = await fetch("http://localhost:3000/updateProfile", {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(data),
+        });
+
+        if (response.status === 200) {
+          console.log("Profile Updated!");
+          navigate.navigate("UserProfile", {email, firstName: fName, lastName: lName, selectedAvatarIndex: selectedAvatarId});
+        } else {
+          console.log("Error updating profile");
+        }
     }
 
     const onCancelHandler = () => {
@@ -61,7 +85,7 @@ export default function UpdateProfileScreen(props) {
       <FlatList
         data={avatarList}
         keyExtractor={(item) => item.id.toString()}
-        numColumns={4} // Set the number of columns per row
+        numColumns={4} 
         renderItem={({ item }) => (
           <TouchableOpacity
             style={[

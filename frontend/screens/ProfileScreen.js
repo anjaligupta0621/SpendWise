@@ -5,7 +5,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import {styles} from '../styles/AuthenticationScreenStyle.js';
 import LoginContext from '../contexts/loginContext.js';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 
 export default function UpdateProfileScreen(props) {
 
@@ -28,6 +28,8 @@ export default function UpdateProfileScreen(props) {
 
     const [selectedAvatar, setSelectedAvatar] = useState(avatarList[0][0]);
     const [isEditMode, setIsEditMode] = useState(false);
+
+    const route = useRoute();
 
     const updateAvatar = (avatar) => {
         setSelectedAvatar(avatar);
@@ -62,18 +64,18 @@ export default function UpdateProfileScreen(props) {
 
     useEffect(() => {
         fetchProfile();
-    }, [])
+    }, [firstName, lastName])
 
     const onUpdateHandler = () => {
         const data = {
             firstName,
-            lastName
+            lastName,
+            email,
         };
         console.log("Profile Updated!");
         console.log(data);
         // props.navigation.replace("UpdateProfile");
-        navigate.navigate("UpdateProfile");
-        
+        navigate.navigate("UpdateProfile", data);
     }
 
     const onUpdateAvatarHandler = async () => {
