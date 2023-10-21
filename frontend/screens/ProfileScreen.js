@@ -5,6 +5,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import {styles} from '../styles/AuthenticationScreenStyle.js';
 import LoginContext from '../contexts/loginContext.js';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import { useNavigation } from '@react-navigation/native';
 
 export default function UpdateProfileScreen(props) {
 
@@ -23,6 +24,8 @@ export default function UpdateProfileScreen(props) {
 
     const [isLoggedIn, setIsLoggedIn] = useContext(LoginContext);
 
+    const navigate = useNavigation();
+
     const [selectedAvatar, setSelectedAvatar] = useState(avatarList[0][0]);
     const [isEditMode, setIsEditMode] = useState(false);
 
@@ -32,6 +35,9 @@ export default function UpdateProfileScreen(props) {
 
       const toggleEditMode = () => {
         setIsEditMode(!isEditMode);
+        if (!isEditMode) {
+          onUpdateAvatarHandler();
+        }
       };
 
     const fetchProfile = async () => {
@@ -65,8 +71,38 @@ export default function UpdateProfileScreen(props) {
         };
         console.log("Profile Updated!");
         console.log(data);
-        props.navigation.replace("UpdateProfile");
+        // props.navigation.replace("UpdateProfile");
+        navigate.navigate("UpdateProfile");
+        
     }
+
+    const onUpdateAvatarHandler = async () => {
+      const data = {
+        email, 
+        selectedAvatarIndex: avatarList.indexOf(selectedAvatar),
+      };
+    
+      try {
+        const response = await fetch('http://localhost:3000/updateAvatar', {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data),
+        });
+    
+        if (response.ok) {
+          console.log('Avatar updated successfully');
+          // You may want to update the user's data in your app state
+        } else {
+          console.error('Failed to update avatar');
+        }
+      } catch (error) {
+        console.error('Network error:', error);
+      }
+    };
+    
+    
 
     const onLogoutHandler = () => {
         AsyncStorage.removeItem('token')
@@ -91,36 +127,15 @@ export default function UpdateProfileScreen(props) {
       </Text>
 
       <View style={avatarStyles.avatarContainer}>
-        {isEditMode ? (
-            <View style={avatarStyles.avatarList}>
-            {avatarList.map((group, groupIndex) => (
-                <View key={groupIndex} style={avatarStyles.avatarGroup}>
-                {group.map((avatar, index) => (
-                    <TouchableOpacity
-                    key={index}
-                    style={[
-                        avatarStyles.avatarThumbnail,
-                        avatar === selectedAvatar && avatarStyles.selectedAvatar,
-                    ]}
-                    onPress={() => updateAvatar(avatar)}
-                    >
-                    <Image source={avatar} style={avatarStyles.avatarImage} />
-                    </TouchableOpacity>
-                ))}
-                </View>
-            ))}
-            </View>
-        ) : (
-            
-            <Image source={selectedAvatar} style={avatarStyles.selectedAvatarImage} />
-        )}
+        
+        <Image source={selectedAvatar} style={avatarStyles.selectedAvatarImage} />
 
-        <TouchableOpacity
+        {/* <TouchableOpacity
             style={avatarStyles.editIcon}
             onPress={toggleEditMode}
         >
             <Icon name={isEditMode ? 'check' : 'pencil'} size={30} color="grey" />
-        </TouchableOpacity>
+        </TouchableOpacity> */}
         </View>
 
 
@@ -139,7 +154,7 @@ export default function UpdateProfileScreen(props) {
        <Button mode='contained' style={styles.buttonStyle}
         onPress={() => onUpdateHandler(props)}
         >
-          Update
+          Update Profile
        </Button>
        <Button mode='contained' style={styles.buttonStyle}
         onPress={() => onLogoutHandler()}
