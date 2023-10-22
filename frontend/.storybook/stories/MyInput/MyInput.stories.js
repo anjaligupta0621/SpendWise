@@ -1,6 +1,6 @@
 import React from 'react';
 import { View } from 'react-native';
-import { MyInput } from './Input';
+import { MyInput } from './MyInput';
 
 export default {
   title: "components/MyInput",
@@ -25,7 +25,8 @@ export default {
 
 export const MySecondStory = {
   args: {
-    task: 'Hello world',
+    text: 'Hello world',
+    label: 'Last Name'
     // onPress: { action: 'pressed the button' },
   }
 };

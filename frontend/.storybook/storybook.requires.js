@@ -46,18 +46,11 @@ try {
 } catch {}
 
 const getStories = () => {
-  return [
-    {
-    "./.storybook/stories/Button/Button.stories.js": require("./stories/Button/Button.stories.js"),
-  },
-  {
-    "./.storybook/stories/Input/Input.stories.js": require("./stories/Input/Input.stories.js"),
-  },
+  return {
+    "./.storybook/stories/MyButton/MyButton.stories.js": require("./stories/MyButton/MyButton.stories.js"),
+    "./.storybook/stories/MyInput/MyInput.stories.js": require("./stories/MyInput/MyInput.stories.js"),
+  }
   
-];
-  // {
-  //   "./.storybook/stories/Input/Input.stories.js": require("./stories/Input/Input.stories.js"),
-  // }
   
 };
 

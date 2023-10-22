@@ -1,6 +1,6 @@
 import React from 'react';
 import { View } from 'react-native';
-import { MyButton } from './Button';
+import { MyButton } from './MyButton';
 
 export default {
   title: "components/MyButton",
@@ -22,10 +22,10 @@ export default {
   ],
 };
 
-// export const MyFirstStory = {
-//   args: {
-//     text: 'Hello world',
-//     onPress: { action: 'pressed the button' },
-//   }
-// };
+export const MyFirstStory = {
+  args: {
+    text: 'Hello world',
+    onPress: { action: 'pressed the button' },
+  }
+};
 
