@@ -4,43 +4,21 @@ import { Button, TextInput } from 'react-native-paper';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {styles} from '../styles/AuthenticationScreenStyle.js';
 import LoginContext from '../contexts/loginContext.js';
-import Icon from 'react-native-vector-icons/FontAwesome';
 import { useNavigation, useRoute } from '@react-navigation/native';
+import { avatarList } from '../data/profileData.js';
 
 export default function UpdateProfileScreen(props) {
-
-    const avatarList = [
-        [require('../assets/avatar1.png'),
-        require('../assets/avatar2.png'),
-        require('../assets/avatar3.png'),
-        require('../assets/avatar4.jpeg'),],
-        [require('../assets/avatar5.png'),]
-      ];
 
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
     const [email, setEmail] = useState('');
     const [income, setIncome] = useState(0);
-
     const [isLoggedIn, setIsLoggedIn] = useContext(LoginContext);
-
     const navigate = useNavigation();
-
-    const [selectedAvatar, setSelectedAvatar] = useState(avatarList[0][0]);
-    const [isEditMode, setIsEditMode] = useState(false);
-
+    const [selectedAvatarIndex, setSelectedAvatarIndex] = useState(0);
     const route = useRoute();
 
-    const updateAvatar = (avatar) => {
-        setSelectedAvatar(avatar);
-      };
-
-      const toggleEditMode = () => {
-        setIsEditMode(!isEditMode);
-        if (!isEditMode) {
-          onUpdateAvatarHandler();
-        }
-      };
+    const selectedAvatar = avatarList[selectedAvatarIndex].source;
 
     const fetchProfile = async () => {
         const token = await AsyncStorage.getItem('token');
@@ -58,13 +36,25 @@ export default function UpdateProfileScreen(props) {
                     setLastName(data.lastName)
                     console.log("Fetched lastName: ", data.lastName);
                     setIncome(data.income)
+                    setSelectedAvatarIndex(data.avatarIndex)
+                    // let newAvatar = avatarList.find(x => x.id == data.avatarIndex);
+                    // setSelectedAvatar(newAvatar.source);
                 }
             });
     }
 
     useEffect(() => {
         fetchProfile();
-    }, [firstName, lastName])
+    }, [])
+
+    useEffect(() => {
+      // When route.params updates, set the state with updated data
+      if (route.params) {
+        setFirstName(route.params.firstName);
+        setLastName(route.params.lastName);
+        setSelectedAvatarIndex(route.params.selectedAvatarIndex);
+      }
+    }, [route.params]);
 
     const onUpdateHandler = () => {
         const data = {
@@ -76,35 +66,7 @@ export default function UpdateProfileScreen(props) {
         console.log(data);
         // props.navigation.replace("UpdateProfile");
         navigate.navigate("UpdateProfile", data);
-    }
-
-    const onUpdateAvatarHandler = async () => {
-      const data = {
-        email, 
-        selectedAvatarIndex: avatarList.indexOf(selectedAvatar),
-      };
-    
-      try {
-        const response = await fetch('http://localhost:3000/updateAvatar', {
-          method: 'PUT',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(data),
-        });
-    
-        if (response.ok) {
-          console.log('Avatar updated successfully');
-          // You may want to update the user's data in your app state
-        } else {
-          console.error('Failed to update avatar');
-        }
-      } catch (error) {
-        console.error('Network error:', error);
-      }
-    };
-    
-    
+    } 
 
     const onLogoutHandler = () => {
         AsyncStorage.removeItem('token')
@@ -129,16 +91,8 @@ export default function UpdateProfileScreen(props) {
       </Text>
 
       <View style={avatarStyles.avatarContainer}>
-        
         <Image source={selectedAvatar} style={avatarStyles.selectedAvatarImage} />
-
-        {/* <TouchableOpacity
-            style={avatarStyles.editIcon}
-            onPress={toggleEditMode}
-        >
-            <Icon name={isEditMode ? 'check' : 'pencil'} size={30} color="grey" />
-        </TouchableOpacity> */}
-        </View>
+      </View>
 
 
        <Text style={styles.subtitleStyle}>

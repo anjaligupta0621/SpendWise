@@ -58,7 +58,7 @@ export default function UpdateProfileScreen(props) {
 
         if (response.status === 200) {
           console.log("Profile Updated!");
-          navigate.navigate("UserProfile", {email, firstName: fName, lastName: lName, selectedAvatarIndex: selectedAvatarId});
+          navigate.navigate("UserProfile", {firstName: fName, lastName: lName, selectedAvatarIndex: selectedAvatarId});
         } else {
           console.log("Error updating profile");
         }
