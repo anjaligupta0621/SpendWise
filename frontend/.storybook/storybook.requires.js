@@ -49,6 +49,7 @@ const getStories = () => {
   return {
     "./.storybook/stories/MyButton/MyButton.stories.js": require("./stories/MyButton/MyButton.stories.js"),
     "./.storybook/stories/MyInput/MyInput.stories.js": require("./stories/MyInput/MyInput.stories.js"),
+    "./.storybook/stories/MySearchBar/MySearchBar.stories.js": require("./stories/MySearchBar/MySearchBar.stories.js"),
   }
   
   

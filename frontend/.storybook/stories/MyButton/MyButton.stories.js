@@ -29,3 +29,10 @@ export const MyFirstStory = {
   }
 };
 
+export const SearchButton = {
+  args: {
+    text: 'Search',
+    onPress: { action: 'pressed the button' },
+  }
+}
+
