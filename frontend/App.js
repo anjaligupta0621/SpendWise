@@ -17,6 +17,7 @@ import LoginContext from './contexts/loginContext';
 import Icon from 'react-native-vector-icons/Ionicons';  
 import ExpenseScreen from './screens/ExpenseScreen';
 import ProfileScreen from './screens/ProfileScreen';
+import BudgetScreen from './screens/BudgetScreen';
 
 LogBox.ignoreAllLogs();
 
@@ -66,6 +67,16 @@ export default function App() {
                   tabBarLabel: 'Home',
                   tabBarIcon: ({ color, size }) => (
                     <Ionicons name="home" color="grey" size={20} />
+                  ),
+                }} 
+              />
+              <Tab.Screen 
+                name="Budget" 
+                component={BudgetScreen} 
+                options={{
+                  tabBarLabel: 'Budget',
+                  tabBarIcon: ({ color, size }) => (
+                    <Ionicons name="card" color="grey" size={20} />
                   ),
                 }} 
               />
