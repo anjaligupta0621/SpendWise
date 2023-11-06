@@ -1,137 +1,173 @@
-import { useState, useContext, useEffect, useRef } from 'react';
-import { StyleSheet, Text, View, StatusBar, TouchableOpacity, KeyboardAvoidingView, Image, Animated, PanResponder } from 'react-native';
+import React, { useState, useRef, useEffect } from 'react';
+import { View, Text, StyleSheet, Animated, PanResponder, StatusBar, TouchableOpacity, KeyboardAvoidingView, Image} from 'react-native';
 import { Button, TextInput } from 'react-native-paper';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {styles} from '../styles/AuthenticationScreenStyle.js';
 import { useNavigation, useRoute } from '@react-navigation/native';
-import { avatarList } from '../data/profileData.js';
 
-export default function BudgetScreen(props) {
+const cardData = [
+  { id: 1, text: 'We researched about some budget techniques and present you with the best ones we could find. Swipe left to see more..' },
+  { id: 2, text: 'It is recommended that you put 50% of your income in fixed spendings' },
+  { id: 3, text: 'It is recommended that you put 20% of your income in savings' },
+];
 
-    const colors = ['purple', 'turquoise', '#F44336'];
+const BudgetScreen = () => {
+  const [cards, setCards] = useState(cardData);
+  const swipePosition = useRef(new Animated.ValueXY()).current;
 
-    const [cardsPan, setCardsPan] = useState(new Animated.ValueXY());
-    const [cardsStackedAnim, setCardsStackedAnim] = useState(new Animated.Value(0));
-    const [currentIndex, setCurrentIndex] = useState(0);
+  const [enteredBudget, setEnteredBudget] = useState(0);
 
-    const [enteredBudget, setEnteredBudget] = useState(0);
-
-    const onAddBudget = () => {
+  const onAddBudget = () => {
       console.log("Budget added!");
     }
 
-    const cardsPanResponder = PanResponder.create({
-        onStartShouldSetPanResponder: () => true,
-        onStartShouldSetPanResponderCapture: () => true,
-        onMoveShouldSetPanResponder: () => true,
-        onMoveShouldSetPanResponderCapture: () => true,
-        onPanResponderMove: (event, gestureState) => {
-            setCardsPan({ x: gestureState.dx, y: gestureState.dy });
-        },
-        onPanResponderTerminationRequest: () => false,
-        onPanResponderRelease: (event, gestureState) => {
-                    // bring the translationX back to 0
-            Animated.timing( cardsPan, {
-                toValue: 0,
-                duration: 300,
-            } ).start();
-            // will be used to interpolate values in each view
-            Animated.timing( cardsStackedAnim, {
-                toValue: 1,
-                duration: 300,
-            } ).start( () => {
-                // reset cardsStackedAnim's value to 0 when animation ends
-                setCardsStackedAnim(new Animated.Value(0));
-                // increment card position when animation ends
-                setCurrentIndex( currentIndex + 1 );
-            } );
-        }
-    })
+  const panResponder = PanResponder.create({
+    onStartShouldSetPanResponder: () => true,
+    onPanResponderMove: (event, gesture) => {
+      swipePosition.setValue({ x: gesture.dx, y: gesture.dy });
+    },
+    onPanResponderRelease: (event, gesture) => {
+      if (gesture.dx > 120) {
+        // Swiped right
+        handleSwipeComplete('right');
+      } else if (gesture.dx < -120) {
+        // Swiped left
+        handleSwipeComplete('left');
+      } else {
+        resetPosition();
+      }
+    },
+  });
+
+  const handleSwipeComplete = (direction) => {
+    // Handle a swipe (right or left) here, e.g., remove card from the stack
+    const remainingCards = cards.slice(1);
+    if (remainingCards.length === 0) {
+      // If there are no more cards, reset to the initial state
+      setCards(cardData);
+    } else {
+      setCards(remainingCards);
+    }
+    resetPosition();
+  };
+
+  const resetPosition = () => {
+    Animated.spring(swipePosition, {
+      toValue: { x: 0, y: 0 },
+      useNativeDriver: false,
+    }).start();
+  };
+
+  const getCardStyle = () => {
+    const rotate = swipePosition.x.interpolate({
+      inputRange: [-200, 0, 200],
+      outputRange: ['-30deg', '0deg', '30deg'],
+    });
+
+    return {
+      ...swipePosition.getLayout(),
+      transform: [{ rotate }],
+    };
+  };
+
+  const renderCard = (card) => {
+    return (
+      <Animated.View style={[cardStyles.card, getCardStyle()]} {...panResponder.panHandlers}>
+        <Text style={cardStyles.text}>{card.text}</Text>
+      </Animated.View>
+    );
+  };
+
+  useEffect(() => {
+    if (cards.length === 0) {
+      setCards(cardData); // Reset to the initial state if there are no more cards
+    }
+  }, [cards]);
 
   return (
     <>
-      <KeyboardAvoidingView behavior='position'>
-      <Text style={styles.welcomeTitle}>
-        Welcome to
-      </Text>
-      <Text style={styles.spendWiseTitle}>
-        SpendWise!
-      </Text>
-      <View style={styles.borderStyle} />
-      <Text style={styles.subtitleStyle}>
-        Your Budget
-      </Text>
-      {cardsPan && <View style={{
-        marginTop: "55%",
-        alignContent: "center",
-        alignItems: "center",
-        position: 'relative',
-      }}>    
-      <Animated.View
-    style={{
-      width: 420, height: 200,
-      position: 'absolute',
-      borderRadius: 10,
-      backgroundColor: colors[(currentIndex + 2) % 3],
-      zIndex: 1,
-      bottom: cardsStackedAnim.interpolate({
-        inputRange: [ 0, 1 ], outputRange: [ 40, 20 ] }),
-      transform: [{
-        scale: cardsStackedAnim.interpolate({
-          inputRange: [ 0, 1 ], outputRange: [ 0.80, 0.90 ] })
-      }],
-      opacity: cardsStackedAnim.interpolate({
-        inputRange: [ 0, 1 ], outputRange: [ 0.3, 0.6 ] }),
-    }}
-  />
-  <Animated.View
-    style={{
-      width: 420, height: 200,
-      position: 'absolute',
-      borderRadius: 10,
-      backgroundColor: colors[(currentIndex + 1) % 3],
-      zIndex: 2,
-      bottom: cardsStackedAnim.interpolate({
-        inputRange: [ 0, 1 ], outputRange: [ 20, 0 ] }),
-      transform: [{
-        scale: cardsStackedAnim.interpolate({
-          inputRange: [ 0, 1 ], outputRange: [ 0.90, 1.0 ] })
-      }],
-      opacity: cardsStackedAnim.interpolate({
-        inputRange: [ 0, 1 ], outputRange: [ 0.6, 1 ] }),
-    }}
-  />
-  <Animated.View    // frontmost card
-    { ...cardsPanResponder.panHandlers }
-    style={{
-      width: 420, height: 200,
-      position: 'absolute',
-      borderRadius: 10,
-      zIndex: 3,
-      bottom: 0,
-      backgroundColor: colors[0], // Blue
-      opacity: 1,
-      transform: [
-        { translateX: cardsPan.x },
-        { scale: 1.0 },
-      ],
-    }}
-  />
-</View>}
-<TextInput 
-        label="Budget"
-        mode='outlined'
-        value={enteredBudget}
-        onChangeText={(text) => setEnteredBudget(text)}
-        style = {styles.inputFieldStyle}
-        theme={{colors: {primary: "purple"}}}
-       />
-       <Button mode='contained' style={styles.buttonStyle}
+       <KeyboardAvoidingView behavior='position'>
+       <Text style={styles.welcomeTitle}>
+         Welcome to
+       </Text>
+       <Text style={styles.spendWiseTitle}>
+         SpendWise!
+       </Text>
+       <View style={styles.borderStyle} />
+       <Text style={styles.subtitleStyle}>
+         Your Budget
+       </Text>
+      <View style={cardStyles.container}>
+        {cards.map((card, index) => {
+          if (index === 0) {
+            return renderCard(card);
+          }
+          return null;
+        })}
+      </View>
+      <TextInput 
+          label="Budget"
+          mode='outlined'
+          value={enteredBudget}
+          onChangeText={(text) => setEnteredBudget(text)}
+          style = {styles2.inputFieldStyle}
+          theme={{colors: {primary: "purple"}}}
+        />
+       <Button mode='contained' style={styles2.buttonStyle}
         onPress={() => onAddBudget(props)}
         >
           Add Budget
        </Button>
-       </KeyboardAvoidingView>
+    </KeyboardAvoidingView>
     </>
   );
-}
+};
+
+const cardStyles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  card: {
+    position: 'absolute',
+    width: 400,
+    height: 200,
+    borderRadius: 10,
+    backgroundColor: 'purple',
+    shadowColor: '#000',
+    justifyContent: 'center',
+    alignItems: 'center',
+    alignContent: 'center',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.3,
+    shadowRadius: 2,
+    elevation: 3,
+    margin: 15
+  },
+  text: {
+    color: 'white',
+    fontSize: 20,
+    fontWeight: 'bold',
+    textAlign: 'center',
+  }
+});
+
+const styles2 = StyleSheet.create({
+  inputFieldStyle: {
+    marginLeft: 18,
+    marginRight: 18,
+    marginTop: "55%",
+    position: 'relative'
+  },
+buttonStyle: { 
+    color: "white", 
+    backgroundColor: "purple",
+    borderRadius: 5,
+    marginLeft: 18,
+    marginRight: 18,
+    marginTop: 18,
+    },
+})
+
+export default BudgetScreen;
