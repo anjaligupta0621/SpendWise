@@ -49,6 +49,10 @@ const userSchema = new mongoose.Schema({
         type: Number,
         default: 0
     },
+    budget: {
+        type: Number,
+        default: 0
+    }
 });
 
 userSchema.pre('save', function(next) {

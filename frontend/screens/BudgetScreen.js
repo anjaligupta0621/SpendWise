@@ -14,11 +14,44 @@ const cardData = [
 const BudgetScreen = () => {
   const [cards, setCards] = useState(cardData);
   const swipePosition = useRef(new Animated.ValueXY()).current;
+  const [fetchedEmail, setFetchedEmail] = useState('');
 
   const [enteredBudget, setEnteredBudget] = useState(0);
+  const [fetchedBudget, setFetchedBudget] = useState(0);
+
+  const fetchBudget = async () => {
+    const token = await AsyncStorage.getItem('token');
+    const response = await fetch("http://localhost:3000/", {
+      headers: new Headers({
+        Authorization: "Bearer " + token
+    })
+});
+        const data = await response.json();
+        console.log(data);
+        setFetchedEmail(data.email);
+        setFetchedBudget(data.budget);
+  }
+
+  useEffect(() => {
+    fetchBudget();
+  }, [])
 
   const onAddBudget = () => {
       console.log("Budget added!");
+      console.log(enteredBudget);
+      const data = {
+        email: fetchedEmail,
+        budget: enteredBudget,
+      };
+      const response = fetch("http://localhost:3000/addBudget", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
+      setFetchedBudget(enteredBudget);
+      setEnteredBudget(0);
     }
 
   const panResponder = PanResponder.create({
@@ -105,6 +138,7 @@ const BudgetScreen = () => {
           return null;
         })}
       </View>
+      
       <TextInput 
           label="Budget"
           mode='outlined'
@@ -114,10 +148,13 @@ const BudgetScreen = () => {
           theme={{colors: {primary: "purple"}}}
         />
        <Button mode='contained' style={styles2.buttonStyle}
-        onPress={() => onAddBudget(props)}
+        onPress={() => onAddBudget()}
         >
           Add Budget
        </Button>
+       <Text style={styles.textStyle}>
+        Current Budget: {fetchedBudget}
+      </Text>
     </KeyboardAvoidingView>
     </>
   );
