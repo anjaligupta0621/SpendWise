@@ -11,10 +11,10 @@ import {
 global.STORIES = [
   {
     titlePrefix: "",
-    directory: "./.storybook/.storybook/stories",
-    files: "**/*.stories.?(ts|tsx|js|jsx)",
+    directory: "./components",
+    files: "**/*.stories.js",
     importPathMatcher:
-      "^\\.[\\\\/](?:\\.storybook\\/\\.storybook\\/stories(?:\\/(?!\\.)(?:(?:(?!(?:^|\\/)\\.).)*?)\\/|\\/|$)(?!\\.)(?=.)[^/]*?\\.stories\\.(?:ts|tsx|js|jsx)?)$",
+      "^\\.[\\\\/](?:components(?:\\/(?!\\.)(?:(?:(?!(?:^|\\/)\\.).)*?)\\/|\\/|$)(?!\\.)(?=.)[^/]*?\\.stories\\.js)$",
   },
 ];
 
@@ -46,7 +46,11 @@ try {
 } catch {}
 
 const getStories = () => {
-  return {};
+  return {
+    "./components/MyButton/MyButton.stories.js": require("../components/MyButton/MyButton.stories.js"),
+    "./components/MyInput/MyInput.stories.js": require("../components/MyInput/MyInput.stories.js"),
+    "./components/MySearchBar/MySearchBar.stories.js": require("../components/MySearchBar/MySearchBar.stories.js"),
+  };
 };
 
 configure(getStories, module, false);
