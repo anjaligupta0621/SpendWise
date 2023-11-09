@@ -1,3 +1,5 @@
+import Constants from 'expo-constants';
+
 import { StyleSheet, Text, View, StatusBar, TouchableOpacity, KeyboardAvoidingView, LogBox } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
@@ -38,7 +40,7 @@ const ProfileStack = () => (
   </Stack.Navigator>
 );
 
-export default function App() {
+function App() {
 
   const [isLoggedIn, setIsLoggedIn] = useState(null);
 
@@ -107,3 +109,12 @@ export default function App() {
 }
 
 // export { default } from './.storybook';
+
+let AppEntryPoint = App;
+
+// Render Storybook if storybookEnabled is true
+if (Constants.expoConfig.extra.storybookEnabled === 'true') {
+  AppEntryPoint = require('./.storybook').default;
+}
+
+export default AppEntryPoint;
