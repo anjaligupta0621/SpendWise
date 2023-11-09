@@ -1,7 +1,7 @@
 export default ({ config }) => ({
     ...config,
-    name: "Storybook Tutorial Template",
-    slug: "storybook-tutorial-template",
+    name: "frontend",
+    slug: "frontend",
     extra: {
       storybookEnabled: process.env.STORYBOOK_ENABLED,
     },

@@ -10,7 +10,7 @@
     "storybook-generate": "sb-rn-get-stories",
     "storybook-watch": "sb-rn-watcher",
     "storybook": "sb-rn-get-stories && STORYBOOK_ENABLED='true' expo start",
-    "storybook:ios": "sb-rn-get-stories && STORYBOOK_ENABLED='true' expo ios",
+    "storybook:ios": "sb-rn-get-stories && STORYBOOK_ENABLED='true' expo start --ios",
     "storybook:android": "sb-rn-get-stories && STORYBOOK_ENABLED='true' expo android"
   },
   "dependencies": {
