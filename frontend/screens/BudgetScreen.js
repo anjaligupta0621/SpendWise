@@ -4,12 +4,7 @@ import { Button, TextInput } from 'react-native-paper';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {styles} from '../styles/AuthenticationScreenStyle.js';
 import { useNavigation, useRoute } from '@react-navigation/native';
-
-const cardData = [
-  { id: 1, text: 'We researched about some budget techniques and present you with the best ones we could find. Swipe left to see more..' },
-  { id: 2, text: 'It is recommended that you put 50% of your income in fixed spendings' },
-  { id: 3, text: 'It is recommended that you put 20% of your income in savings' },
-];
+import { cardData } from '../data/cardData.js';
 
 const BudgetScreen = () => {
   const [cards, setCards] = useState(cardData);
