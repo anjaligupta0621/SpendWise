@@ -19,6 +19,8 @@ const BudgetScreen = () => {
   const [enteredBudget, setEnteredBudget] = useState(0);
   const [fetchedBudget, setFetchedBudget] = useState(0);
 
+  const [currentIndex, setCurrentIndex] = useState(0);
+
   const fetchBudget = async () => {
     const token = await AsyncStorage.getItem('token');
     const response = await fetch("http://localhost:3000/", {
@@ -73,17 +75,29 @@ const BudgetScreen = () => {
   });
 
   const handleSwipeComplete = (direction) => {
-    // Handle a swipe (right or left) here, e.g., remove card from the stack
-    const remainingCards = cards.slice(1);
-    if (remainingCards.length === 0) {
-      // If there are no more cards, reset to the initial state
-      setCards(cardData);
-    } else {
-      setCards(remainingCards);
-    }
-    resetPosition();
+    Animated.timing(swipePosition, {
+      toValue: direction === 'left' ? { x: -500, y: 0 } : { x: 500, y: 0 },
+      duration: 300,
+      useNativeDriver: false,
+    }).start(() => {
+      const remainingCards = cards.slice(1);
+      if (remainingCards.length === 0) {
+        setCards(cardData);
+      } else {
+        setCards(remainingCards);
+      }
+      swipePosition.setValue({ x: 0, y: 0 });
+    });
   };
+  
 
+  const getCardStyle = () => {
+    return {
+      ...swipePosition.getLayout(),
+      transform: swipePosition.getTranslateTransform(),
+    };
+  };
+  
   const resetPosition = () => {
     Animated.spring(swipePosition, {
       toValue: { x: 0, y: 0 },
@@ -91,17 +105,6 @@ const BudgetScreen = () => {
     }).start();
   };
 
-  const getCardStyle = () => {
-    const rotate = swipePosition.x.interpolate({
-      inputRange: [-200, 0, 200],
-      outputRange: ['-30deg', '0deg', '30deg'],
-    });
-
-    return {
-      ...swipePosition.getLayout(),
-      transform: [{ rotate }],
-    };
-  };
 
   const renderCard = (card) => {
     return (
@@ -110,6 +113,7 @@ const BudgetScreen = () => {
       </Animated.View>
     );
   };
+
 
   useEffect(() => {
     if (cards.length === 0) {
@@ -138,7 +142,7 @@ const BudgetScreen = () => {
           return null;
         })}
       </View>
-      
+
       <TextInput 
           label="Budget"
           mode='outlined'
