@@ -83,8 +83,10 @@ const BudgetScreen = () => {
       const remainingCards = cards.slice(1);
       if (remainingCards.length === 0) {
         setCards(cardData);
+        setCurrentIndex(0);
       } else {
         setCards(remainingCards);
+        setCurrentIndex(currentIndex + 1);
       }
       swipePosition.setValue({ x: 0, y: 0 });
     });
@@ -111,6 +113,22 @@ const BudgetScreen = () => {
       <Animated.View style={[cardStyles.card, getCardStyle()]} {...panResponder.panHandlers}>
         <Text style={cardStyles.text}>{card.text}</Text>
       </Animated.View>
+    );
+  };
+
+  const renderPagination = () => {
+    return (
+      <View style={styles2.pagination}>
+        {cardData.map((_, index) => (
+          <View
+            key={index}
+            style={[
+              styles2.paginationDot,
+              index === currentIndex ? styles2.activeDot : null,
+            ]}
+          />
+        ))}
+      </View>
     );
   };
 
@@ -142,6 +160,7 @@ const BudgetScreen = () => {
           return null;
         })}
       </View>
+      {renderPagination()}
 
       <TextInput 
           label="Budget"
@@ -198,7 +217,7 @@ const styles2 = StyleSheet.create({
   inputFieldStyle: {
     marginLeft: 18,
     marginRight: 18,
-    marginTop: "55%",
+    marginTop: 10,
     position: 'relative'
   },
 buttonStyle: { 
@@ -208,6 +227,22 @@ buttonStyle: {
     marginLeft: 18,
     marginRight: 18,
     marginTop: 18,
+    },
+    pagination: {
+      flexDirection: 'row',
+      justifyContent: 'center',
+      alignItems: 'center',
+      marginTop: "55%",
+    },
+    paginationDot: {
+      width: 8,
+      height: 8,
+      borderRadius: 4,
+      backgroundColor: '#888', // Inactive dot color
+      marginHorizontal: 5,
+    },
+    activeDot: {
+      backgroundColor: 'purple', // Active dot color
     },
 })
 
