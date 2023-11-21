@@ -20,6 +20,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import ExpenseScreen from './screens/ExpenseScreen';
 import ProfileScreen from './screens/ProfileScreen';
 import BudgetScreen from './screens/BudgetScreen';
+import PieChartWithInteractivity from './screens/PieChartWithInteractivity';
 
 LogBox.ignoreAllLogs();
 
@@ -79,6 +80,16 @@ function App() {
                   tabBarLabel: 'Budget',
                   tabBarIcon: ({ color, size }) => (
                     <Ionicons name="card" color="grey" size={20} />
+                  ),
+                }} 
+              />
+              <Tab.Screen 
+                name="Dashboard" 
+                component={PieChartWithInteractivity} 
+                options={{
+                  tabBarLabel: 'Dashboard',
+                  tabBarIcon: ({ color, size }) => (
+                    <Ionicons name="stats-chart" color="grey" size={20} />
                   ),
                 }} 
               />

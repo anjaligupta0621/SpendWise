@@ -5,10 +5,11 @@ import { useContext, useEffect, useState } from 'react';
 import {styles} from '../styles/AuthenticationScreenStyle.js';
 import { Dimensions } from 'react-native';
 import { useNavigation } from '@react-navigation/native'
-import { PieChart } from 'react-native-chart-kit'
+// import { PieChart } from 'react-native-chart-kit'
 import LoginContext from '../contexts/loginContext.js';
 import {categories} from '../data/homedata.js';
 import Icon from 'react-native-vector-icons/Ionicons';
+import { PieChart } from 'react-native-svg-charts'
 
 const { width } = Dimensions.get('window');
 const windowWidth = width;
@@ -32,10 +33,56 @@ export default function HomeScreen(props) {
     const [isIncome, setIsIncome] = useState(false);
 
     const [fetchedExpenses, setFetchedExpenses] = useState(null);
-    const [pieData1, setPieData1] = useState(null);
+    const [pieData1, setPieData1] = useState([]);
 
     const [fetchedTotalExpenses, setFetchedTotalExpenses] = useState(0);
     const [fetchedIncome, setFetchedIncome] = useState(0);
+
+    const [pieChartData, setPieChartData] = useState(null);
+
+    const [selectedSlice, setSelectedSlice] = useState(null);
+    const [selectedSliceValue, setSelectedSliceValue] = useState(0);
+
+      const getPieChartDataRounded2 = (data) => {
+        console.log("Inside Pie Chart Rounded 2");
+        return data.map((item, index) => {
+            console.log(item.name, ": ITEM NAME");
+          return {
+            ...item,
+            key: index,
+            svg: { fill: item.color },
+            arc: {
+              cornerRadius: 5,
+              outerRadius: selectedSlice === item.name ? '75%' : '70%',
+            },
+            onPress: () => handleSlicePress(item.name, item.value, data),
+          };
+        });
+
+      };
+    
+      const handleSlicePress = (category, value, data) => {
+        setSelectedSlice(category);
+        setSelectedSliceValue(value);
+        console.log(`Selected category: ${category}`);
+        const updatedData = data && data.map((item, index) => {
+            // console.log(item.name, ": ITEM NAME");
+          return {
+            ...item,
+            key: index,
+            svg: { fill: item.color },
+            arc: {
+              cornerRadius: 5,
+              outerRadius: category === item.name ? '75%' : '70%',
+            },
+            onPress: () => handleSlicePress(item.name, item.value, data),
+          };
+        });
+        console.log("Updated data: ", updatedData);
+        setPieData1(updatedData);
+      };
+
+      
 
     const handleCategoryPress = (category) => {
         navigation.navigate('Expense', { category, fetchedEmail, fetchedName });
@@ -48,6 +95,8 @@ export default function HomeScreen(props) {
           <Text>{item.name}</Text>
         </TouchableOpacity>
       );
+
+
 
     const fetchToken = async () => {
         const token = await AsyncStorage.getItem('token');
@@ -79,97 +128,104 @@ export default function HomeScreen(props) {
                         },
                         {
                         name: "Clothes",
-                        value: data.expenses['Clothes'],
+                        value: parseFloat(data.expenses['Clothes']),
                         color: "blue",
                         legendFontColor: "#181818",
                         legendFontSize: 15
                         },
                         {
                         name: "Eating Out",
-                        value: data.expenses['Eating Out'],
+                        value: parseFloat(data.expenses['Eating Out']),
                         color: "red",
                         legendFontColor: "#181818",
                         legendFontSize: 15
                         },
                         {
                         name: "Groceries",
-                        value: data.expenses['Groceries'],
+                        value: parseFloat(data.expenses['Groceries']),
                         color: "green",
                         legendFontColor: "#181818",
                         legendFontSize: 15
                         },
                         {
                         name: "Transport",
-                        value: data.expenses['Transport'],
+                        value: parseFloat(data.expenses['Transport']),
                         color: "purple",
                         legendFontColor: "#181818",
                         legendFontSize: 15
                         },
                         {
                         name: "Movies",
-                        value: data.expenses['Movies'],
+                        value: parseFloat(data.expenses['Movies']),
                         color: "yellow",
                         legendFontColor: "#181818",
                         legendFontSize: 15
                         },
                         {
                         name: "House",
-                        value: data.expenses['House'],
+                        value: parseFloat(data.expenses['House']),
                         color: "orange",
                         legendFontColor: "#181818",
                         legendFontSize: 15
                         },
                         {
                         name: "Pets",
-                        value: data.expenses['Pets'],
+                        value: parseFloat(data.expenses['Pets']),
                         color: "brown",
                         legendFontColor: "#181818",
                         legendFontSize: 15
                         },
                         {
                         name: "Health",
-                        value: data.expenses['Health'],
+                        value: parseFloat(data.expenses['Health']),
                         color: "pink",
                         legendFontColor: "#181818",
                         legendFontSize: 15
                         },
                         {
                         name: "Toiletries",
-                        value: data.expenses['Toiletries'],
+                        value: parseFloat(data.expenses['Toiletries']),
                         color: "turquoise",
                         legendFontColor: "#181818",
                         legendFontSize: 15
                         },
                         {
                         name: "Internet",
-                        value: data.expenses['Internet'],
+                        value: parseFloat(data.expenses['Internet']),
                         color: "grey",
                         legendFontColor: "#181818",
                         legendFontSize: 15
                         },
                         {
                         name: "Sports",
-                        value: data.expenses['Sports'],
+                        value: parseFloat(data.expenses['Sports']),
                         color: "black",
                         legendFontColor: "#181818",
                         legendFontSize: 15
                         },
                         {
                         name: "Custom",
-                        value: data.expenses['Custom'],
+                        value: parseFloat(data.expenses['Custom']),
                         color: "navy",
                         legendFontColor: "#181818",
                         legendFontSize: 15
                         },
                         {
                         name: "Savings",
-                        value: data.income - data.totalExpenses,
+                        value: parseFloat(data.income) - parseFloat(data.totalExpenses),
                         color: "#abf7b1",
                         legendFontColor: "#181818",
                         legendFontSize: 15
                         }
                         ];
-                        setPieData1(pieData);
+                        // setPieData1(pieData);
+                    
+                    const newPieData = getPieChartDataRounded2(pieData);
+                    setPieData1(newPieData);
+                    setPieChartData(newPieData);
+
+                    console.log("New Pie data: ", newPieData);
+                    // updatePieData(pieData);
                 
                 }
             });
@@ -178,6 +234,25 @@ export default function HomeScreen(props) {
     useEffect(() => {
         fetchToken();
     }, [fetchedIncome])
+
+    // useEffect(() =>{
+    //     pieData1 && updatePieData(pieData1);
+    // }, [])
+
+    const [dataInitialized, setDataInitialized] = useState(false);
+
+    useEffect(() => {
+    if (!dataInitialized && pieData1 !== null) {
+        updatePieData(pieData1);
+        setDataInitialized(true);
+    }
+    }, [pieData1, dataInitialized]);
+
+    const updatePieData = (data) => {
+        const newPieData = getPieChartDataRounded2(data);
+        setPieData1(newPieData);
+        setPieChartData(newPieData);
+      }
 
     const onLogoutHandler = () => {
         AsyncStorage.removeItem('token')
@@ -255,16 +330,23 @@ export default function HomeScreen(props) {
         <View style={{
             marginBottom: 20,
             ...styles.borderStyle}} />
-        {pieData1 && <PieChart
-            data={pieData1}
-            width={windowWidth}
-            height={300}
-            chartConfig={chartConfig}
-            accessor="value"
-            backgroundColor="transparent"
-            paddingLeft="20"
-            absolute
-        />}
+        {
+            pieData1 &&  (<View style={{ alignItems: 'center', justifyContent: 'center' }}>
+            <PieChart
+              style={{ width: 300, height: 300 }}
+              data={pieData1}
+              innerRadius={35}
+              labelRadius={120}
+            />
+      
+            {selectedSlice && selectedSliceValue && (
+              <View style={{ alignItems: 'center'}}>
+                <Text style={{ fontWeight: 'bold' }}>{selectedSlice} : {selectedSliceValue}</Text>
+              </View>
+            )}
+          </View>)
+        }
+
 
         <Button mode='contained' style={styles.buttonStyle}
             onPress={() => setIsIncome(true)}
