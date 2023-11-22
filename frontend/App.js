@@ -21,6 +21,7 @@ import ExpenseScreen from './screens/ExpenseScreen';
 import ProfileScreen from './screens/ProfileScreen';
 import BudgetScreen from './screens/BudgetScreen';
 import PieChartWithInteractivity from './screens/PieChartWithInteractivity';
+import DashboardScreen from './screens/DashboardScreen';
 
 LogBox.ignoreAllLogs();
 
@@ -85,7 +86,7 @@ function App() {
               />
               <Tab.Screen 
                 name="Dashboard" 
-                component={PieChartWithInteractivity} 
+                component={DashboardScreen} 
                 options={{
                   tabBarLabel: 'Dashboard',
                   tabBarIcon: ({ color, size }) => (

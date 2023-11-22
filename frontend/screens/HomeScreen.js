@@ -66,7 +66,6 @@ export default function HomeScreen(props) {
         setSelectedSliceValue(value);
         console.log(`Selected category: ${category}`);
         const updatedData = data && data.map((item, index) => {
-            // console.log(item.name, ": ITEM NAME");
           return {
             ...item,
             key: index,
@@ -78,7 +77,6 @@ export default function HomeScreen(props) {
             onPress: () => handleSlicePress(item.name, item.value, data),
           };
         });
-        console.log("Updated data: ", updatedData);
         setPieData1(updatedData);
       };
 
