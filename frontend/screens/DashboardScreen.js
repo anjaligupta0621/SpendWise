@@ -22,8 +22,56 @@ const DottedBar = (props) => {
   );
 };
 
-const GraphCard = () => {
+const WeekMode = () => {
 
+  return (
+    <>
+      <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
+        <View
+          style={{ padding: 20, flexDirection: "row", alignContent: "center",  justifyContent: "space-between", width: 400, marginLeft: 20 }}
+        >
+          <GraphLine
+            earnLineHeight={100}
+            spendLineHeight={50}
+            MonthName={"Mon"}
+          />
+          <GraphLine
+            earnLineHeight={80}
+            spendLineHeight={60}
+            MonthName={"Tue"}
+          />
+          <GraphLine
+            earnLineHeight={110}
+            spendLineHeight={76}
+            MonthName={"Wed"}
+          />
+          <GraphLine
+            earnLineHeight={135}
+            spendLineHeight={85}
+            MonthName={"Thu"}
+          />
+          <GraphLine
+            earnLineHeight={55}
+            spendLineHeight={34}
+            MonthName={"Fri"}
+          />
+          <GraphLine
+            earnLineHeight={90}
+            spendLineHeight={76}
+            MonthName={"Sat"}
+          />
+          <GraphLine
+            earnLineHeight={90}
+            spendLineHeight={76}
+            MonthName={"Sun"}
+          />
+        </View>
+      </ScrollView>   
+    </>
+  );
+}
+
+const MonthMode = () => {
     const [activeBtn, setActiveBtn] = useState(1);
 
     const handleToggle = (btnNumber) => {
@@ -31,33 +79,7 @@ const GraphCard = () => {
       };
 
   return (
-    <View style={styles.GraphCard}>
-      <View style={styles.ToggleBar}>
-        <TouchableOpacity 
-            style={activeBtn === 1 ? styles.ToggleBtnActive : styles.ToggleBtn}
-            onPress={() => handleToggle(1)}
-        >
-          <Text style = {activeBtn === 1 ? {color : "white"} : null}>W</Text>
-        </TouchableOpacity>
-        <TouchableOpacity 
-            style={activeBtn === 2 ? styles.ToggleBtnActive : styles.ToggleBtn}
-            onPress={() => handleToggle(2)}
-        >
-          <Text style = {activeBtn === 2 ? {color : "white"} : null}>M</Text>
-        </TouchableOpacity>
-        <TouchableOpacity 
-            style={activeBtn === 3 ? styles.ToggleBtnActive : styles.ToggleBtn}
-            onPress={() => handleToggle(3)}
-        >
-          <Text style = {activeBtn === 3 ? {color : "white"} : null}>Y</Text>
-        </TouchableOpacity>
-      </View>
-      <DottedBar bottom={250} />
-      <DottedBar bottom={220} />
-      <DottedBar bottom={190} />
-      <DottedBar bottom={160} />
-      <DottedBar bottom={130} />
-      <DottedBar bottom={100} />
+    <>
       <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
         <View
           style={{ padding: 20, flexDirection: "row", alignContent: "center" }}
@@ -124,6 +146,47 @@ const GraphCard = () => {
           />
         </View>
       </ScrollView>
+    </>
+  );
+}
+
+const GraphCard = () => {
+
+    const [activeBtn, setActiveBtn] = useState(1);
+
+    const handleToggle = (btnNumber) => {
+        setActiveBtn(btnNumber);
+      };
+
+  return (
+    <View style={styles.GraphCard}>
+      <View style={styles.ToggleBar}>
+        <TouchableOpacity 
+            style={activeBtn === 1 ? styles.ToggleBtnActive : styles.ToggleBtn}
+            onPress={() => handleToggle(1)}
+        >
+          <Text style = {activeBtn === 1 ? {color : "white"} : null}>W</Text>
+        </TouchableOpacity>
+        <TouchableOpacity 
+            style={activeBtn === 2 ? styles.ToggleBtnActive : styles.ToggleBtn}
+            onPress={() => handleToggle(2)}
+        >
+          <Text style = {activeBtn === 2 ? {color : "white"} : null}>M</Text>
+        </TouchableOpacity>
+        {/* <TouchableOpacity 
+            style={activeBtn === 3 ? styles.ToggleBtnActive : styles.ToggleBtn}
+            onPress={() => handleToggle(3)}
+        >
+          <Text style = {activeBtn === 3 ? {color : "white"} : null}>Y</Text>
+        </TouchableOpacity> */}
+      </View>
+      <DottedBar bottom={250} />
+      <DottedBar bottom={220} />
+      <DottedBar bottom={190} />
+      <DottedBar bottom={160} />
+      <DottedBar bottom={130} />
+      <DottedBar bottom={100} />
+      { activeBtn === 1 ? <WeekMode /> : <MonthMode />}
       <View
         style={{
           flexDirection: "row",
@@ -209,24 +272,7 @@ export default DashboardScreen;
 const styles = StyleSheet.create({
   Stat: {
     flex: 1,
-    // backgroundColor: "#111111",
     backgroundColor: "#fff",
-  },
-  BellImg: {
-    width: 24,
-    height: 24,
-  },
-  BellContiner: {
-    width: 40,
-    height: 40,
-    backgroundColor: "#3C3C3C",
-    justifyContent: "center",
-    alignItems: "center",
-    borderRadius: 30,
-  },
-  leftbtn: {
-    width: 40,
-    height: 40,
   },
   TopBar: {
     paddingTop: 15,
@@ -246,7 +292,7 @@ const styles = StyleSheet.create({
     shadowOffset: {width: -2, height: 3},    
   },
   ToggleBar: {
-    width: 130,
+    width: 100,
     alignSelf: "center",
     height: 50,
     backgroundColor: "#fff",
