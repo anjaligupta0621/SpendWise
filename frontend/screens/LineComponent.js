@@ -68,6 +68,9 @@ const LineComponent = () => {
       borderRadius: 16
     }}
   />
+  <Text style={{ fontWeight: 'bold', alignSelf: 'center'}}>
+    Your Spendings {activeBtn === 1 ? "this Week" : "monthly"}
+  </Text>
   </>
     )
 }
@@ -80,7 +83,7 @@ const styles = StyleSheet.create({
       alignSelf: "center",
       height: 50,
       backgroundColor: "#fff",
-      marginTop: 50,
+      marginTop: 70,
       borderRadius: 50,
       borderColor: "#111111",
       borderWidth: 2,
