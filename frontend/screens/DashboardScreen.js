@@ -1,6 +1,8 @@
 import { Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import React, { useEffect, useState } from "react";
 import {styles as headerStyles} from "../styles/AuthenticationScreenStyle";
+import { Text as SVGText, G } from 'react-native-svg';
+import LineComponent from "./LineComponent";
 
 
 const DottedBar = (props) => {
@@ -158,6 +160,8 @@ const GraphCard = () => {
         setActiveBtn(btnNumber);
       };
 
+    const yAxisLabels = [100, 80, 60, 40, 20, 0];
+
   return (
     <View style={styles.GraphCard}>
       <View style={styles.ToggleBar}>
@@ -173,12 +177,6 @@ const GraphCard = () => {
         >
           <Text style = {activeBtn === 2 ? {color : "white"} : null}>M</Text>
         </TouchableOpacity>
-        {/* <TouchableOpacity 
-            style={activeBtn === 3 ? styles.ToggleBtnActive : styles.ToggleBtn}
-            onPress={() => handleToggle(3)}
-        >
-          <Text style = {activeBtn === 3 ? {color : "white"} : null}>Y</Text>
-        </TouchableOpacity> */}
       </View>
       <DottedBar bottom={250} />
       <DottedBar bottom={220} />
@@ -187,6 +185,12 @@ const GraphCard = () => {
       <DottedBar bottom={130} />
       <DottedBar bottom={100} />
       { activeBtn === 1 ? <WeekMode /> : <MonthMode />}
+      {/* Y-axis labels */}
+      <View style={{ position: 'absolute', left: 0, top: 42, alignItems: 'left', alignContent: 'left' }}>
+        {yAxisLabels.map((label, index) => (
+          <Text key={index} style={{marginBottom: 12, marginLeft: 5}}>{label}</Text>
+        ))}
+      </View>
       <View
         style={{
           flexDirection: "row",
@@ -210,7 +214,7 @@ const GraphCard = () => {
             fontSize: 12,
           }}
         >
-          Earned
+          Saved
         </Text>
         <View
           style={{
@@ -237,6 +241,8 @@ const GraphCard = () => {
 const GraphLine = (props) => {
   const { earnLineHeight, spendLineHeight, MonthName } = props;
 
+  var yAxisLabels = [0, 20, 40, 60, 80, 100, 120, 140];
+
   return (
     <View style={styles.GraphLine}>
       <View style={[styles.EarnLine, { height: earnLineHeight }]}>
@@ -247,6 +253,8 @@ const GraphLine = (props) => {
     </View>
   );
 };
+
+
 
 const DashboardScreen = () => {
   return (
@@ -262,6 +270,9 @@ const DashboardScreen = () => {
       </View>
       <ScrollView showsVerticalScrollIndicator={false} style={{marginTop:10,borderRadius:20,marginBottom:-100}}>
       <GraphCard />
+      </ScrollView>
+      <ScrollView showsVerticalScrollIndicator={false} style={{marginTop:20, marginLeft: 5, marginRight: 5, borderRadius:20,}}>
+      <LineComponent />
       </ScrollView>
     </View>
   );
