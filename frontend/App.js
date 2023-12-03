@@ -22,6 +22,7 @@ import ProfileScreen from './screens/ProfileScreen';
 import BudgetScreen from './screens/BudgetScreen';
 import PieChartWithInteractivity from './screens/PieChartWithInteractivity';
 import DashboardScreen from './screens/DashboardScreen';
+import KnowledgeScreen from './screens/KnowledgeScreen';
 
 LogBox.ignoreAllLogs();
 
@@ -91,6 +92,16 @@ function App() {
                   tabBarLabel: 'Dashboard',
                   tabBarIcon: ({ color, size }) => (
                     <Ionicons name="stats-chart" color="grey" size={20} />
+                  ),
+                }} 
+              />
+              <Tab.Screen 
+                name="Knowledge" 
+                component={KnowledgeScreen} 
+                options={{
+                  tabBarLabel: 'Knowledge',
+                  tabBarIcon: ({ color, size }) => (
+                    <Ionicons name="book" color="grey" size={20} />
                   ),
                 }} 
               />
