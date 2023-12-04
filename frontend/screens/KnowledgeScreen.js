@@ -7,21 +7,21 @@ export default function KnowledgeScreen(props) {
 
   const videos = [
     {
-      title: '10 Proven Ways To Grow Money',
-      videoSource: require('frontend/assets/budgeting/1.mp4'),
-    },
-    {
       title: 'How To Live Below Your Means',
-      videoSource: require('frontend/assets/budgeting/1.mp4'),
+      videoSource: require('frontend/assets/budgeting/3.mp4'),
     },
     {
       title: 'BUDGETING FOR BEGINNERS',
-      videoSource: require('frontend/assets/budgeting/1.mp4'),
+      videoSource: require('frontend/assets/budgeting/2.mp4'),
     },
     {
       title: 'How To Manage Your Money',
-      videoSource: require('frontend/assets/budgeting/1.mp4'),
+      videoSource: require('frontend/assets/budgeting/4.mp4'),
     },
+    {
+        title: '10 Proven Ways To Grow Money',
+        videoSource: require('frontend/assets/budgeting/1.mp4'),
+      },
   ]
 
   return (
@@ -40,11 +40,16 @@ export default function KnowledgeScreen(props) {
     <Text style={{...styles.subtitleStyle, justifyContent: 'space-between', alignItems: 'center'}}>
         Budgeting Videos
     </Text>
-    <ScrollView contentContainerStyle={videoStyles.scrollContainer}>
+    {/* <ScrollView contentContainerStyle={videoStyles.scrollContainer}>
       {videos.map((title, videoSource) => (
         <VideoCard title={title.title} videoSource={videoSource} />
       ))}
-    </ScrollView>
+    </ScrollView> */}
+    <ScrollView contentContainerStyle={videoStyles.scrollContainer}>
+          {videos.map((video, index) => ( // Changed the mapping function parameters
+            <VideoCard key={index} title={video.title} videoSource={video.videoSource} /> // Passed video.videoSource
+          ))}
+        </ScrollView>
        </KeyboardAvoidingView>
     </>
   );
