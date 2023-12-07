@@ -1,10 +1,12 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { View, Text, StyleSheet, Animated, PanResponder, StatusBar, TouchableOpacity, KeyboardAvoidingView, Image} from 'react-native';
+import { View, Text, StyleSheet, Animated, PanResponder, StatusBar, ScrollView, KeyboardAvoidingView, Image} from 'react-native';
 import { Button, TextInput } from 'react-native-paper';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {styles} from '../styles/AuthenticationScreenStyle.js';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { cardData } from '../data/cardData.js';
+import { generateResponse } from './ChatGPTService.js';
+import axios from 'axios';
 
 const BudgetScreen = () => {
   const [cards, setCards] = useState(cardData);
@@ -15,6 +17,46 @@ const BudgetScreen = () => {
   const [fetchedBudget, setFetchedBudget] = useState(0);
 
   const [currentIndex, setCurrentIndex] = useState(0);
+
+  const [messages, setMessages] = useState([]);
+  const [userInput, setUserInput] = useState('');
+
+  const sendMessage = async () => {
+    // Logic to send message will go here
+    if (!userInput) return;
+
+    setMessages(prevMessages => [...prevMessages, `User: ${userInput}`]);
+    const botResponse = await generateResponse(userInput);
+    setMessages(prevMessages => [...prevMessages, `ChatGPT: ${botResponse}`]);
+    setUserInput('');
+  };
+  // const sendMessage = async () => {
+  //   const userMessage = { role: 'user', content: userInput };
+  //   setMessages([...messages, userMessage]);
+  //   setUserInput('');
+  //   try {
+  //     const response = await axios.post(
+  //       'https://api.openai.com/v1/chat/completions',
+  //       {
+  //         model: 'gpt-3.5-turbo',
+  //         messages: [...messages, userMessage],
+  //       },
+  //       {
+  //         headers: {
+  //           'Content-Type': 'application/json',
+  //           'Authorization': 'Bearer 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',
+  //         },
+  //       }
+  //     );
+  //     const botMessage = {
+  //       role: 'bot',
+  //       content: response.data.choices[0].message.content,
+  //     };
+  //     setMessages([...messages, botMessage]);
+  //   } catch (error) {
+  //     console.error('Error sending message:', error);
+  //   }
+  // };
 
   const fetchBudget = async () => {
     const token = await AsyncStorage.getItem('token');
@@ -173,6 +215,23 @@ const BudgetScreen = () => {
        <Text style={styles.textStyle}>
         Current Budget: {fetchedBudget}
       </Text>
+      <View>
+      
+      <View>
+        <TextInput 
+          value={userInput}
+          onChangeText={setUserInput}
+          placeholder="Type a message"
+          style={{marginTop: 10}}
+        />
+        <Button title="Send" onPress={sendMessage}>Send</Button>
+        <ScrollView>
+        {messages.map((msg, index) => (
+          <Text key={index}>{msg}</Text>
+        ))}
+      </ScrollView>
+      </View>
+    </View>
     </KeyboardAvoidingView>
     </>
   );

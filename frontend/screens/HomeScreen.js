@@ -289,6 +289,10 @@ export default function HomeScreen(props) {
     }
 
     const handleExpenseAdded = ({ category, expense }) => {
+        if (expense + fetchedTotalExpenses > fetchedIncome) {
+            alert("Expense exceeds income!");
+            return;
+        }
         // Calculate the new total expense for the category and update the state
         const updatedPieData = pieData1.map((item) => {
           if (item.name === category) {
@@ -299,8 +303,11 @@ export default function HomeScreen(props) {
           }
           return item;
         });
+
+        const newPieData = getPieChartDataRounded2(updatedPieData);
       
-        setPieData1(updatedPieData);
+        setPieData1(newPieData);
+
       };
 
         const chartConfig = {
