@@ -3,7 +3,8 @@
 This application serves as a comprehensive expense tracker, which allows users to log and evaluate their daily spending. Through the application, the users can visualize their expenses in the form of charts and graphs. Moreover, the application also provides users with insights on how to manage their expenses effectively.
 
 ## Application Demo
-https://github.com/anjaligupta0621/SpendWise/blob/main/demo/anjali_gupta_final_demo.mp4
+
+https://github.com/anjaligupta0621/SpendWise/assets/61660321/9499a6b7-d0d5-4f6d-a9e5-f94620dadb53
 
 ## Application Features
 1. User Registration and Authentication (SignUp and Login) 
