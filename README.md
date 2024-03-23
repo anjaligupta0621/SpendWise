@@ -4,7 +4,7 @@ This application serves as a comprehensive expense tracker, which allows users t
 
 ## Application Demo
 
-https://github.com/anjaligupta0621/SpendWise/assets/61660321/9499a6b7-d0d5-4f6d-a9e5-f94620dadb53
+https://github.com/anjaligupta0621/SpendWise/assets/61660321/d71e0788-74b4-4858-adba-c713daed885d
 
 ## Application Features
 1. User Registration and Authentication (SignUp and Login) 
